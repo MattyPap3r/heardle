@@ -54,6 +54,31 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .streak-container {
+            font-size: 14px;
+            font-weight: 700;
+            background: rgba(255, 159, 67, 0.15);
+            color: #ff9f43;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 159, 67, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .streak-container svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
         .settings-btn {
             background: none;
             border: none;
@@ -79,6 +104,31 @@
             flex-direction: column;
             gap: 12px;
             flex-grow: 1;
+        }
+
+        /* Copertina Sfocata Principale */
+        .main-cover-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .main-cover-box {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-color);
+            position: relative;
+        }
+
+        .main-cover-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(25px); /* Sfocatura iniziale */
+            transition: filter 0.5s ease;
         }
 
         /* Lista tentativi */
@@ -348,23 +398,6 @@
             font-size: 15px;
         }
 
-        .cover-art-container {
-            width: 160px;
-            height: 160px;
-            border-radius: 12px;
-            overflow: hidden;
-            margin: 16px 0;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            border: 1px solid var(--border-color);
-            display: none;
-        }
-
-        .cover-art-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .restart-btn {
             background: linear-gradient(135deg, var(--accent-color), #ff9f43);
             color: white;
@@ -410,9 +443,15 @@
 
     <header>
         <h1>☀️ HEARDLE</h1>
-        <button class="settings-btn" onclick="toggleSettings()">
-            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-        </button>
+        <div class="header-controls">
+            <div class="streak-container">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <span id="streak-count">0</span>
+            </div>
+            <button class="settings-btn" onclick="toggleSettings()">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            </button>
+        </div>
     </header>
 
     <!-- Schermata caricamento -->
@@ -422,6 +461,13 @@
     </div>
 
     <div class="game-container">
+        <!-- Riquadro Copertina (Sfocata inizialmente) -->
+        <div class="main-cover-wrapper">
+            <div class="main-cover-box">
+                <img id="main-cover-img" src="" alt="Cover">
+            </div>
+        </div>
+
         <!-- I 6 tentativi -->
         <div class="attempts-container" id="attempts">
             <div class="attempt-box empty" id="attempt-0"></div>
@@ -448,9 +494,7 @@
             </div>
 
             <button class="play-btn" id="play-btn" onclick="togglePlay()">
-                <!-- Icona Play di default -->
                 <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <!-- Icona Pause -->
                 <svg id="pause-icon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
         </div>
@@ -484,11 +528,6 @@
             <p id="modal-text"></p>
             <p id="modal-song-info" style="font-weight: 700; color: var(--accent-color); font-size: 18px; margin-bottom: 4px;"></p>
             <p id="modal-album-info" style="font-size: 14px; color: #a1a1aa; margin-bottom: 12px;"></p>
-            
-            <div class="cover-art-container" id="cover-art-container">
-                <img id="cover-art-img" src="" alt="Cover Art">
-            </div>
-            
             <button class="restart-btn" onclick="initGame()">Gioca ancora</button>
         </div>
     </div>
@@ -507,7 +546,6 @@
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
-        // Carichiamo tutte le 390 canzoni esportate dalla playlist!
         const playlist = [
     {
         "title": "BIANCA (feat. Kid Yugi)",
@@ -2853,6 +2891,9 @@
 
         const timeLimits = [1, 2, 4, 7, 11, 16];
         const maxGameSeconds = 16;
+        
+        // REVERTED OFFSET: Le canzoni ora partono esattamente dall'inizio (secondo 0)
+        const songSkipOffset = 0; 
 
         let currentAttempt = 0;
         let activeSong = null;
@@ -2860,53 +2901,48 @@
         let isPlaying = false;
         let progressInterval = null;
         let apiKey = localStorage.getItem('yt_api_key') || '';
+        let currentStreak = parseInt(localStorage.getItem('heardle_streak')) || 0;
+
+        // Inizializza contatore streak grafico
+        document.getElementById('streak-count').innerText = currentStreak;
+        document.getElementById('api-key-input').value = apiKey;
 
         // SVG Templates per risposte
         const checkSvg = '<span class="attempt-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>';
         const crossSvg = '<span class="attempt-icon"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span>';
         const flagSvg = '<span class="attempt-icon"><svg viewBox="0 0 24 24"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z"/></svg></span>';
 
-        document.getElementById('api-key-input').value = apiKey;
-
         function onYouTubeIframeAPIReady() {
             initGame();
         }
 
-        // Funzione per nascondere i titoli reali dal player iOS e Control Center
-        function setupObfuscatedMediaSession() {
+        // Funzione continua che nasconde i dati nel Centro di Controllo / Lock Screen di iOS
+        function enforceLockScreenAntiSpoiler() {
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: 'Ascolta e indovina...',
-                    artist: '☀️ Heardle',
-                    album: 'Album offuscato',
+                    artist: 'Heardle ☀️',
+                    album: 'Playlist Personalizzata',
                     artwork: [{ src: 'https://placehold.co/500x500/16161c/ff5e7e?text=Heardle+☀️', sizes: '512x512', type: 'image/png' }]
-                });
-            }
-        }
-
-        function setupFinalMediaSession(title, artist, album, ytId) {
-            if ('mediaSession' in navigator) {
-                const coverUrl = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: title,
-                    artist: artist,
-                    album: album,
-                    artwork: [{ src: coverUrl, sizes: '480x360', type: 'image/jpeg' }]
                 });
             }
         }
 
         async function initGame() {
             document.getElementById('end-modal').style.display = 'none';
-            document.getElementById('cover-art-container').style.display = 'none';
             document.getElementById('guess-input').value = '';
             document.getElementById('loader').style.display = 'flex';
-            document.getElementById('loader-status').innerText = 'Scelta della canzone segreta...';
+            document.getElementById('loader-status').innerText = 'Scelta del brano segreto...';
             
+            // Ripristina l'immagine sfocata
+            const mainCover = document.getElementById('main-cover-img');
+            mainCover.style.filter = "blur(25px)";
+            mainCover.src = "";
+
             isPlaying = false;
             currentAttempt = 0;
             updateTimeInfo();
-            setupObfuscatedMediaSession();
+            enforceLockScreenAntiSpoiler();
 
             for (let i = 0; i < 6; i++) {
                 const box = document.getElementById(`attempt-${i}`);
@@ -2916,19 +2952,21 @@
 
             activeSong = playlist[Math.floor(Math.random() * playlist.length)];
             
-            document.getElementById('loader-status').innerText = 'Ricerca del video su YouTube...';
+            document.getElementById('loader-status').innerText = 'Sintonizzazione traccia...';
             const ytId = await findYouTubeVideo(activeSong.title, activeSong.artist);
 
             if (!ytId) {
-                document.getElementById('loader-status').innerText = 'Errore nel caricamento del video. Riprovo...';
                 initGame();
                 return;
             }
 
             activeSong.ytId = ytId;
+            
+            // Carica l'immagine sfocata nel quadratino di gioco
+            mainCover.src = `https://img.youtube.com/vi/${activeSong.ytId}/hqdefault.jpg`;
 
             if (player) {
-                player.loadVideoById(activeSong.ytId, 0);
+                player.loadVideoById(activeSong.ytId, songSkipOffset);
                 player.pauseVideo();
                 document.getElementById('loader').style.display = 'none';
             } else {
@@ -2943,7 +2981,8 @@
                         'modestbranding': 1,
                         'rel': 0,
                         'iv_load_policy': 3,
-                        'html5': 1
+                        'html5': 1,
+                        'start': songSkipOffset
                     },
                     events: {
                         'onReady': () => {
@@ -2952,7 +2991,7 @@
                             setTimeout(() => {
                                 player.pauseVideo();
                                 player.unMute();
-                                player.seekTo(0);
+                                player.seekTo(songSkipOffset);
                                 document.getElementById('loader').style.display = 'none';
                             }, 1500);
                         }
@@ -2961,9 +3000,8 @@
             }
         }
 
-        // Funzione ottimizzata per cercare su YouTube con fallback robusti
         async function findYouTubeVideo(title, artist) {
-            const query = `${title} ${artist} audio`;
+            const query = `"${artist}" "${title}" audio`;
             
             if (apiKey) {
                 try {
@@ -2972,12 +3010,9 @@
                     if (data.items && data.items.length > 0) {
                         return data.items[0].id.videoId;
                     }
-                } catch (e) {
-                    console.error("Errore con l'API Key di YouTube:", e);
-                }
+                } catch (e) {}
             }
             
-            // Lista di istanze pubbliche Invidious attive e aggiornate per cercare video senza chiave API
             const invidiousInstances = [
                 'https://invidious.flokinet.to',
                 'https://invidious.snopyta.org',
@@ -2989,62 +3024,55 @@
             for (const instance of invidiousInstances) {
                 try {
                     const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 4000); // 4 sec timeout per istanza
-                    
+                    const timeoutId = setTimeout(() => controller.abort(), 3500);
                     const response = await fetch(`${instance}/api/v1/search?q=${encodeURIComponent(query)}&type=video`, { signal: controller.signal });
                     clearTimeout(timeoutId);
-                    
                     const data = await response.json();
                     if (data && data.length > 0 && data[0].videoId) {
                         return data[0].videoId;
                     }
-                } catch (e) {
-                    console.warn(`Fallita ricerca su istanza ${instance}, provo la successiva...`);
-                }
+                } catch (e) {}
             }
 
-            // Metodo di backup alternativo
             try {
                 const response = await fetch(`https://open.tube/api/v1/search/videos?search=${encodeURIComponent(query)}`);
                 const data = await response.json();
                 if (data.data && data.data.length > 0) {
                     const url = data.data[0].url;
-                    const match = url.match(/watch\?v=([^&]+)/) || url.match(/embed\/([^&]+)/);
+                    const match = url.match(/watch\?v=([^&]+)/);
                     if (match) return match[1];
                 }
-            } catch (e) {
-                console.error("Errore con la ricerca di backup:", e);
-            }
+            } catch (e) {}
 
-            // Se fallisce tutto, restituiamo un video musicale alternativo non vuoto
-            return "dQw4w9WgXcQ"; // Rickroll di fallback
+            return "dQw4w9WgXcQ"; // Fallback
         }
 
         function togglePlay() {
             if (!player || typeof player.getPlayerState !== 'function') return;
-            setupObfuscatedMediaSession(); // Rinsalda l'offuscamento appena premi play
+            enforceLockScreenAntiSpoiler(); // Forza l'anti-spoiler su iOS ad ogni tap
             if (isPlaying) { pauseAudio(); } else { playAudio(); }
         }
 
         function playAudio() {
-            player.seekTo(0);
+            player.seekTo(songSkipOffset);
             player.playVideo();
             isPlaying = true;
             document.getElementById('play-icon').style.display = "none";
             document.getElementById('pause-icon').style.display = "block";
 
-            const limit = timeLimits[currentAttempt];
+            const limit = songSkipOffset + timeLimits[currentAttempt];
             
             progressInterval = setInterval(() => {
+                enforceLockScreenAntiSpoiler(); // Continua a bloccare il Centro di Controllo in tempo reale
                 const currentTime = player.getCurrentTime();
-                const progressPercent = (currentTime / maxGameSeconds) * 100;
+                const progressPercent = ((currentTime - songSkipOffset) / maxGameSeconds) * 100;
                 
                 document.getElementById('progress').style.width = `${progressPercent}%`;
-                document.getElementById('current-time').innerText = formatTime(currentTime);
+                document.getElementById('current-time').innerText = formatTime(currentTime - songSkipOffset);
 
                 if (currentTime >= limit) {
                     pauseAudio();
-                    player.seekTo(0);
+                    player.seekTo(songSkipOffset);
                 }
             }, 50);
         }
@@ -3060,7 +3088,7 @@
         }
 
         function formatTime(seconds) {
-            const s = Math.floor(seconds);
+            const s = Math.max(0, Math.floor(seconds));
             return `0:${s < 10 ? '0' : ''}${s}`;
         }
 
@@ -3068,7 +3096,6 @@
             document.getElementById('max-time').innerText = timeLimits[currentAttempt];
         }
 
-        // Gestione suggerimenti autocomplete
         function showSuggestions(val) {
             const suggestionsContainer = document.getElementById('suggestions');
             suggestionsContainer.innerHTML = '';
@@ -3145,33 +3172,41 @@
 
         function endGame(won) {
             pauseAudio();
+            
+            if (won) {
+                currentStreak++;
+            } else {
+                currentStreak = 0;
+            }
+            localStorage.setItem('heardle_streak', currentStreak);
+            document.getElementById('streak-count').innerText = currentStreak;
+
+            // Rimuovi sfocatura dall'immagine principale
+            document.getElementById('main-cover-img').style.filter = "blur(0px)";
+
             const modal = document.getElementById('end-modal');
             const title = document.getElementById('modal-title');
             const text = document.getElementById('modal-text');
             const info = document.getElementById('modal-song-info');
             const albumInfo = document.getElementById('modal-album-info');
-            const coverContainer = document.getElementById('cover-art-container');
-            const coverImg = document.getElementById('cover-art-img');
 
             title.innerText = won ? "Hai vinto!" : "Game Over";
             text.innerText = won ? "Ottimo orecchio! Canzone indovinata:" : "La canzone era:";
             info.innerText = `${activeSong.artist} - ${activeSong.title}`;
-            
-            // 1. Mostra l'album name
             albumInfo.innerText = `Album: ${activeSong.album}`;
 
-            // 2. Mostra la copertina presa direttamente da YouTube
-            const coverUrl = `https://img.youtube.com/vi/${activeSong.ytId}/0.jpg`;
-            coverImg.src = coverUrl;
-            coverContainer.style.display = 'block';
-
-            // 3. Sblocca le informazioni reali sul Control Center di iOS ora che la partita è finita
-            setupFinalMediaSession(activeSong.title, activeSong.artist, activeSong.album, activeSong.ytId);
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: activeSong.title,
+                    artist: activeSong.artist,
+                    album: activeSong.album,
+                    artwork: [{ src: `https://img.youtube.com/vi/${activeSong.ytId}/hqdefault.jpg`, sizes: '480x360', type: 'image/jpeg' }]
+                });
+            }
 
             modal.style.display = "flex";
         }
 
-        // Impostazioni
         function toggleSettings() {
             const modal = document.getElementById('settings-modal');
             modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
