@@ -332,6 +332,9 @@
             max-width: 400px;
             width: 100%;
             border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .modal h2 {
@@ -340,9 +343,26 @@
         }
 
         .modal p {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             color: #a1a1aa;
             font-size: 15px;
+        }
+
+        .cover-art-container {
+            width: 160px;
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 16px 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .cover-art-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .restart-btn {
@@ -355,6 +375,7 @@
             font-weight: 700;
             cursor: pointer;
             width: 100%;
+            margin-top: 12px;
         }
 
         /* Status Loader */
@@ -461,7 +482,13 @@
         <div class="modal-content">
             <h2 id="modal-title">Risultato</h2>
             <p id="modal-text"></p>
-            <p id="modal-song-info" style="font-weight: 700; color: var(--accent-color); margin-bottom: 24px; font-size: 18px;"></p>
+            <p id="modal-song-info" style="font-weight: 700; color: var(--accent-color); font-size: 18px; margin-bottom: 4px;"></p>
+            <p id="modal-album-info" style="font-size: 14px; color: #a1a1aa; margin-bottom: 12px;"></p>
+            
+            <div class="cover-art-container" id="cover-art-container">
+                <img id="cover-art-img" src="" alt="Cover Art">
+            </div>
+            
             <button class="restart-btn" onclick="initGame()">Gioca ancora</button>
         </div>
     </div>
@@ -485,1951 +512,2341 @@
     {
         "title": "BIANCA (feat. Kid Yugi)",
         "artist": "RRARI DAL TACCO, Kid Yugi",
+        "album": "BIANCA (feat. Kid Yugi)",
         "ytId": ""
     },
     {
         "title": "6SEI6 (feat. Massimo Pericolo)",
         "artist": "Kid Yugi, Massimo Pericolo",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Donna",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "S.X.S.I.C.",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Ex Angelo - Original Version",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "64 BARRE DA CENSURA (Red Bull 64 Bars)",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Eva",
         "artist": "Kid Yugi, Tedua, Junior K",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Servizio (feat. Papa V, Noyz Narcos)",
         "artist": "Kid Yugi, Papa V, Noyz Narcos",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Il Signore delle Mosche",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Lilith",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Denaro (feat. Simba La Rue)",
         "artist": "Kid Yugi, Simba La Rue",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Yung 3p 4",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Ilva (Fume scure rmx) (feat. Fido Guido)",
         "artist": "Kid Yugi, Fido Guido",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Paganini",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Ex Angelo (feat. Sfera Ebbasta)",
         "artist": "Kid Yugi, Sfera Ebbasta, Shablo",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "SEI PERSA",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "NEON",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "VVS CARTIER",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "Speranza (feat. Diss Gacha)",
         "artist": "22simba, Timon, Diss Gacha",
+        "album": "Speranza (feat. Diss Gacha)",
         "ytId": ""
     },
     {
         "title": "Porto il Commerciale (feat. Artie 5ive)",
         "artist": "Kid Yugi, Night Skinny, Artie 5ive",
+        "album": "Quarto di Bue",
         "ytId": ""
     },
     {
         "title": "Massafghanistan",
         "artist": "Kid Yugi, Night Skinny",
+        "album": "Quarto di Bue",
         "ytId": ""
     },
     {
         "title": "DEM (feat. Artie 5ive & Tony Boy)",
         "artist": "Kid Yugi, Artie 5ive, Tony Boy",
+        "album": "The Globe",
         "ytId": ""
     },
     {
         "title": "STUPIDA (feat. Artie 5ive)",
         "artist": "Niky Savage, Blssd, Artie 5ive",
+        "album": "RAPPER",
         "ytId": ""
     },
     {
         "title": "BAAAD",
         "artist": "Niky Savage, Nko",
+        "album": "RAPPER",
         "ytId": ""
     },
     {
         "title": "Capra a tre Teste (feat. Tony Boy, Artie 5ive)",
         "artist": "Kid Yugi, Tony Boy, Artie 5ive",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "MANESKIN (feat. Ghali, Shiva)",
         "artist": "Sadturs, KIID, Ghali, Shiva",
+        "album": "NO REGULAR MUSIC 2",
         "ytId": ""
     },
     {
         "title": "38 (feat. RRARI DAL TACCO, Artie 5ive)",
         "artist": "Sadturs, KIID, RRARI DAL TACCO, Artie 5ive",
+        "album": "NO REGULAR MUSIC 2",
         "ytId": ""
     },
     {
         "title": "7ELEVEN",
         "artist": "Artie 5ive",
+        "album": "BIG 5",
         "ytId": ""
     },
     {
         "title": "Backrooms",
         "artist": "k1dvuller",
+        "album": "Backrooms",
         "ytId": ""
     },
     {
         "title": "Blow Up",
         "artist": "k1dvuller",
+        "album": "Blow Up",
         "ytId": ""
     },
     {
         "title": "GRAMMELOT",
         "artist": "Kid Yugi",
+        "album": "The Globe",
         "ytId": ""
     },
     {
         "title": "Yung 3p 3",
         "artist": "Kid Yugi",
+        "album": "The Globe",
         "ytId": ""
     },
     {
         "title": "Il Ferro di Čechov",
         "artist": "Kid Yugi",
+        "album": "The Globe",
         "ytId": ""
     },
     {
         "title": "Kabuki",
         "artist": "Kid Yugi",
+        "album": "The Globe",
         "ytId": ""
     },
     {
         "title": "Sintetico (feat. Tony Boy)",
         "artist": "Kid Yugi, Night Skinny, Tony Boy",
+        "album": "Quarto di Bue",
         "ytId": ""
     },
     {
         "title": "Lo Faccio per Me (feat. Astro)",
         "artist": "Kid Yugi, Night Skinny, Astro",
+        "album": "Quarto di Bue",
         "ytId": ""
     },
     {
         "title": "Players Club '23 (Knights of the Posse) (feat. Nerissima Serpe, Artie 5ive, Tony Boy, Papa V, Low Red, Digital Astro & Kid Yugi)",
         "artist": "Night Skinny, Nerissima Serpe, Artie 5ive, Tony Boy, Papa V, Low-Red, Astro, Kid Yugi",
+        "album": "Players Club '23 (Knights of the Posse) (feat. Nerissima Serpe, Artie 5ive, Tony Boy, Papa V, Low Red, Digital Astro & Kid Yugi)",
         "ytId": ""
     },
     {
         "title": "NON NE VALI LA PENA (feat. Kid Yugi)",
         "artist": "RRARI DAL TACCO, Kid Yugi",
+        "album": "NON NE VALI LA PENA (feat. Kid Yugi)",
         "ytId": ""
     },
     {
         "title": "100MILA",
         "artist": "Rasty Kilo, Tony Boy, Kid Yugi",
+        "album": "100MILA",
         "ytId": ""
     },
     {
         "title": "Culto Boy (feat. Kid Yugi)",
         "artist": "Cancun, Kid Yugi",
+        "album": "Culto Boy (feat. Kid Yugi)",
         "ytId": ""
     },
     {
         "title": "King Lear (feat. Sosa Priority)",
         "artist": "Kid Yugi, Sosa Priority",
+        "album": "King Lear (feat. Sosa Priority)",
         "ytId": ""
     },
     {
         "title": "Players Club '24 (feat. Low-Red, Tony Boy, Papa V, Nerissima Serpe, Artie 5ive, Kid Yugi, Astro)",
         "artist": "Night Skinny, Low-Red, Kid Yugi, Tony Boy, Papa V, Nerissima Serpe, Artie 5ive, Astro",
+        "album": "Players Club '24 (feat. Low-Red, Tony Boy, Papa V, Nerissima Serpe, Artie 5ive, Kid Yugi, Astro)",
         "ytId": ""
     },
     {
         "title": "FELLINI (feat. Kid Yugi)",
         "artist": "Ernia, Kid Yugi",
+        "album": "PER SOLDI E PER AMORE",
         "ytId": ""
     },
     {
         "title": "Minaccia",
         "artist": "Kid Yugi",
+        "album": "Minaccia",
         "ytId": ""
     },
     {
         "title": "Lamelo",
         "artist": "Faneto",
+        "album": "Lamelo",
         "ytId": ""
     },
     {
         "title": "Trench Code (feat. Faneto)",
         "artist": "Melons, Faneto",
+        "album": "Trench Code (feat. Faneto)",
         "ytId": ""
     },
     {
         "title": "Dissing P",
         "artist": "Melons, Ddusi",
+        "album": "Osama 2",
         "ytId": ""
     },
     {
         "title": "Man Down!",
         "artist": "Melons",
+        "album": "Man Down!",
         "ytId": ""
     },
     {
         "title": "Mossa Strepitosa (feat. Kid Yugi)",
         "artist": "Papa V, Night Skinny, Kid Yugi",
+        "album": "Latte in Polvere",
         "ytId": ""
     },
     {
         "title": "Tu Mi Piaci (feat. Artie 5ive)",
         "artist": "Papa V, Night Skinny, Artie 5ive",
+        "album": "Latte in Polvere",
         "ytId": ""
     },
     {
         "title": "COME SE NON FOSSI NEI GUAI",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "Warzone (feat. Artie 5ive, Capo Plaza & Nerissima Serpe)",
         "artist": "Nko, Artie 5ive, Capo Plaza, Nerissima Serpe",
+        "album": "Warzone (feat. Artie 5ive, Capo Plaza & Nerissima Serpe)",
         "ytId": ""
     },
     {
         "title": "Berserker",
         "artist": "Kid Yugi, Ill Santo, FT Kings",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "BIG CEO",
         "artist": "LILCR",
+        "album": "PROGETTO X DELUXE",
         "ytId": ""
     },
     {
         "title": "Problem Solver",
         "artist": "Glocky",
+        "album": "Northside Melodies",
         "ytId": ""
     },
     {
         "title": "G&V",
         "artist": "IvanBi",
+        "album": "G&V",
         "ytId": ""
     },
     {
         "title": "Scama",
         "artist": "Young Hash, Mothz, Ksub",
+        "album": "Scama",
         "ytId": ""
     },
     {
         "title": "DUOMO",
         "artist": "Rondodasosa",
+        "album": "MATTIA",
         "ytId": ""
     },
     {
         "title": "Latte in Polvere",
         "artist": "Papa V, Night Skinny",
+        "album": "Latte in Polvere",
         "ytId": ""
     },
     {
         "title": "30ºC",
         "artist": "ANNA",
+        "album": "VERA BADDIE",
         "ytId": ""
     },
     {
         "title": "Beatrice (feat. Annalisa)",
         "artist": "Tedua, Annalisa",
+        "album": "La Divina Commedia (Deluxe)",
         "ytId": ""
     },
     {
         "title": "Soldi in Nero - feat. Sfera Ebbasta",
         "artist": "Shiva, Sfera Ebbasta",
+        "album": "Soldi in Nero (feat. Sfera Ebbasta)",
         "ytId": ""
     },
     {
         "title": "Halo",
         "artist": "Samurai Jay, Vito Salamanca",
+        "album": "Halo",
         "ytId": ""
     },
     {
         "title": "blun7 a swishland",
         "artist": "thasup",
+        "album": "23 6451",
         "ytId": ""
     },
     {
         "title": "DONNE RICCHE - Acoustic Version",
         "artist": "TonyPitony",
+        "album": "PECCATO PER I TESTI (Acoustic Version)",
         "ytId": ""
     },
     {
         "title": "DIRTY",
         "artist": "Basti, Deal",
+        "album": "DIRTY",
         "ytId": ""
     },
     {
         "title": "Good Times",
         "artist": "Ghali",
+        "album": "DNA",
         "ytId": ""
     },
     {
         "title": "Thick (feat. MamboLosco) - Remix",
         "artist": "Slings, MamboLosco",
+        "album": "Wave Deluxe",
         "ytId": ""
     },
     {
         "title": "Cinque",
         "artist": "Joejoe, Giacomo, Boii Slatt",
+        "album": "Cinque",
         "ytId": ""
     },
     {
         "title": "Latin Mama",
         "artist": "willzead",
+        "album": "Latin Mama",
         "ytId": ""
     },
     {
         "title": "LAVAPIATTI",
         "artist": "RRARI DAL TACCO",
+        "album": "NON SONO GESÙ",
         "ytId": ""
     },
     {
         "title": "Misère",
         "artist": "Baby Gang, Higashi",
+        "album": "Misère",
         "ytId": ""
     },
     {
         "title": "BAMBOLA (feat. Niky Savage)",
         "artist": "Artie 5ive, Niky Savage",
+        "album": "LA BELLAVITA",
         "ytId": ""
     },
     {
         "title": "Sigue",
         "artist": "Beny Jr, Morad, K y B",
+        "album": "Capítulo 1",
         "ytId": ""
     },
     {
         "title": "MI PIACCIONO LE ARMI",
         "artist": "Simba La Rue, FT Kings, Sick Luke",
+        "album": "ESCI DAL TUNNEL",
         "ytId": ""
     },
     {
         "title": "UOMO CATTIVO (feat. Nabi)",
         "artist": "LILCR, Nabi, Ay Mazza",
+        "album": "PROGETTO X",
         "ytId": ""
     },
     {
         "title": "Tristano e Isotta",
         "artist": "Kid Yugi",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "WHIGGA (feat. Guè)",
         "artist": "Rondodasosa, Guè",
+        "album": "MATTIA",
         "ytId": ""
     },
     {
         "title": "Adding",
         "artist": "Yung Fazo",
+        "album": "Adding",
         "ytId": ""
     },
     {
         "title": "Pura Purissima (feat. Nerissima Serpe)",
         "artist": "Papa V, Night Skinny, Nerissima Serpe",
+        "album": "Latte in Polvere",
         "ytId": ""
     },
     {
         "title": "Knock Knock",
         "artist": "SoFaygo",
+        "album": "Angelic 7",
         "ytId": ""
     },
     {
         "title": "MOLLY ROSA",
         "artist": "Glocky, Faneto",
+        "album": "WE 2FLY",
         "ytId": ""
     },
     {
         "title": "DÉSOLÉE",
         "artist": "ANNA",
+        "album": "DÉSOLÉE",
         "ytId": ""
     },
     {
         "title": "Yakuza",
         "artist": "Elodie, Sfera Ebbasta, Rvssian",
+        "album": "MI AMI MI ODI",
         "ytId": ""
     },
     {
         "title": "YOSHI (feat. thasup, Fabri Fibra & Capo Plaza) - prod. Strage [Remix]",
         "artist": "MACHETE, Dani Faiv, J Balvin, thasup, Fabri Fibra, Capo Plaza",
+        "album": "YOSHI (feat. thasup, Fabri Fibra & Capo Plaza) [prod. Strage [Remix]]",
         "ytId": ""
     },
     {
         "title": "Nessuna",
         "artist": "Luchè",
+        "album": "Il mio lato peggiore",
         "ytId": ""
     },
     {
         "title": "Mood (feat. iann dior)",
         "artist": "24kGoldn, iann dior",
+        "album": "El Dorado",
         "ytId": ""
     },
     {
         "title": "Mystical Magical",
         "artist": "Benson Boone",
+        "album": "American Heart",
         "ytId": ""
     },
     {
         "title": "Sprinter",
         "artist": "Dave, Central Cee",
+        "album": "Sprinter",
         "ytId": ""
     },
     {
         "title": "The Fate of Ophelia",
         "artist": "Taylor Swift",
+        "album": "The Life of a Showgirl",
         "ytId": ""
     },
     {
         "title": "Nightcrawler (feat. Swae Lee & Chief Keef)",
         "artist": "Travis Scott, Swae Lee, Chief Keef",
+        "album": "Rodeo",
         "ytId": ""
     },
     {
         "title": "Blow Up",
         "artist": "k1dvuller",
+        "album": "Wolf In Sheep Skin",
         "ytId": ""
     },
     {
         "title": "IDGAF (feat. Yeat)",
         "artist": "Drake, Yeat",
+        "album": "For All The Dogs",
         "ytId": ""
     },
     {
         "title": "Comfort (feat. Tony Boy)",
         "artist": "Slings, Tony Boy",
+        "album": "Too Clean",
         "ytId": ""
     },
     {
         "title": "Hotel Room",
         "artist": "FLVCKKA, Sleezy O, Maury",
+        "album": "Porque Quise DELUXE",
         "ytId": ""
     },
     {
         "title": "L'Amore Non Mi Basta",
         "artist": "Emma",
+        "album": "Schiena",
         "ytId": ""
     },
     {
         "title": "Gata Only (Remix)",
         "artist": "FloyyMenor, Ozuna, Anitta",
+        "album": "Gata Only (Remix)",
         "ytId": ""
     },
     {
         "title": "RAVE, ECLISSI",
         "artist": "Tananai",
+        "album": "RAVE, ECLISSI",
         "ytId": ""
     },
     {
         "title": "Rodeo (Remix)",
         "artist": "Lah Pat, Flo Milli",
+        "album": "Rodeo (Remix)",
         "ytId": ""
     },
     {
         "title": "AURA",
         "artist": "Ogryzek",
+        "album": "AURA",
         "ytId": ""
     },
     {
         "title": "No Kizzy",
         "artist": "18K, Kid Yugi",
+        "album": "GROTTO",
         "ytId": ""
     },
     {
         "title": "Pupazzo",
         "artist": "Melons, Lubi, Ddusi",
+        "album": "Osama 3 (La Morte Di Osama)",
         "ytId": ""
     },
     {
         "title": "Stellina",
         "artist": "Melons, Ddusi",
+        "album": "Osama 3 (La Morte Di Osama)",
         "ytId": ""
     },
     {
         "title": "Rubare",
         "artist": "Melons, Ddusi",
+        "album": "Osama 3 (La Morte Di Osama)",
         "ytId": ""
     },
     {
         "title": "Stoopid",
         "artist": "Melons, Ddusi",
+        "album": "Osama 3 (La Morte Di Osama)",
         "ytId": ""
     },
     {
         "title": "Balloons",
         "artist": "Melons, Ddusi",
+        "album": "Osama 3 (La Morte Di Osama)",
         "ytId": ""
     },
     {
         "title": "Mp3 (feat. Faneto)",
         "artist": "Melons, Ddusi, Faneto",
+        "album": "Osama 3 (La Morte Di Osama)",
         "ytId": ""
     },
     {
         "title": "V per Ventidue",
         "artist": "22simba",
+        "album": "V per Ventidue",
         "ytId": ""
     },
     {
         "title": "Vibe",
         "artist": "Guè",
+        "album": "Tropico Del Capricorno",
         "ytId": ""
     },
     {
         "title": "Le Tipe",
         "artist": "Guè",
+        "album": "Tropico Del Capricorno",
         "ytId": ""
     },
     {
         "title": "Apparecchiato (feat. Nerissima Serpe)",
         "artist": "Papa V, Nerissima Serpe, Fritu",
+        "album": "Gesù Bambino",
         "ytId": ""
     },
     {
         "title": "Il Protettore (feat. Young Hash, Melons)",
         "artist": "Don Joe, Young Hash, Melons",
+        "album": "Il Protettore (feat. Young Hash, Melons)",
         "ytId": ""
     },
     {
         "title": "Modalità Demonio",
         "artist": "Kid Yugi",
+        "album": "Tutti i Nomi del Diavolo",
         "ytId": ""
     },
     {
         "title": "Boxer",
         "artist": "Gheba, Pave",
+        "album": "Boxer",
         "ytId": ""
     },
     {
         "title": "Angioletto & Ivan",
         "artist": "Young Hash, IvanBi",
+        "album": "Angioletto & Ivan",
         "ytId": ""
     },
     {
         "title": "BETTY BOOP (feat. Artie 5ive)",
         "artist": "LILCR, Artie 5ive",
+        "album": "PROGETTO X DELUXE",
         "ytId": ""
     },
     {
         "title": "a me piace #249 (feat. LILCR)",
         "artist": "dedde, LILCR",
+        "album": "TORINO SANGUINA",
         "ytId": ""
     },
     {
         "title": "CAPI'",
         "artist": "Glasond, Tony 2Milli",
+        "album": "GLASOND IL PRINCIPE DEI SAIYAN",
         "ytId": ""
     },
     {
         "title": "DITO MEDIO",
         "artist": "LILCR, Melons",
+        "album": "PROGETTO X DELUXE",
         "ytId": ""
     },
     {
         "title": "AYAHUASCA (feat. Tony Boy)",
         "artist": "Simba La Rue, Tony Boy, FT Kings",
+        "album": "AYAHUASCA (feat. Tony Boy)",
         "ytId": ""
     },
     {
         "title": "CAZZI MIEI",
         "artist": "Simba La Rue, FT Kings",
+        "album": "CAZZI MIEI",
         "ytId": ""
     },
     {
         "title": "L'ultimo a Cadere",
         "artist": "Kid Yugi",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "La violenza Necessaria (feat. Shiva)",
         "artist": "Kid Yugi, Shiva",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Eroina (feat. Tutti Fenomeni)",
         "artist": "Kid Yugi, Tutti Fenomeni",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Jolly",
         "artist": "Kid Yugi",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Mostro (feat. Tony Boy)",
         "artist": "Kid Yugi, Tony Boy",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Push It (feat. ANNA)",
         "artist": "Kid Yugi, ANNA",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Amelie",
         "artist": "Kid Yugi",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Gilgamesh",
         "artist": "Kid Yugi",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Chuck Norris (feat. Papa V, RRARI DAL TACCO, Nerissima Serpe)",
         "artist": "Kid Yugi, Papa V, RRARI DAL TACCO, Nerissima Serpe",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Mu'Ammar Gheddafi (feat. Simba La Rue)",
         "artist": "Kid Yugi, Simba La Rue, FT Kings",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Bullet Ballet (feat. Artie 5ive)",
         "artist": "Kid Yugi, Artie 5ive",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Per il Sangue Versato",
         "artist": "Kid Yugi",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Per te che Lotto",
         "artist": "Kid Yugi",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "Davide e Golia",
         "artist": "Kid Yugi",
+        "album": "Anche gli Eroi Muoiono",
         "ytId": ""
     },
     {
         "title": "La genesi del tuo colore",
         "artist": "Irama",
+        "album": "La genesi del tuo colore",
         "ytId": ""
     },
     {
         "title": "Il Doc 6 (feat. Young Hash, Flaco G & Niky Savage)",
         "artist": "VillaBanks, Young Hash, Flaco G, Niky Savage",
+        "album": "Il Doc 6 (feat. Young Hash, Flaco G & Niky Savage)",
         "ytId": ""
     },
     {
         "title": "MILANO TESTAROSSA (feat. Guè)",
         "artist": "Artie 5ive, Guè",
+        "album": "LA BELLAVITA",
         "ytId": ""
     },
     {
         "title": "CAFFÈ AMARO",
         "artist": "RRARI DAL TACCO",
+        "album": "NON SONO GESÙ",
         "ytId": ""
     },
     {
         "title": "G STAR",
         "artist": "LILCR",
+        "album": "DANIEL",
         "ytId": ""
     },
     {
         "title": "BILLIONAIRE BOYS (feat. Artie 5ive, Faneto)",
         "artist": "Niky Savage, Blssd, Artie 5ive, Faneto",
+        "album": "RAPPER",
         "ytId": ""
     },
     {
         "title": "PANINARO (feat. Tony Boy, Artie 5ive)",
         "artist": "Astro, Tony Boy, Artie 5ive",
+        "album": "ASTRO",
         "ytId": ""
     },
     {
         "title": "QUALCUNO HA FATTO LA SPIA (feat. Artie 5ive)",
         "artist": "Niko Pandetta, Artie 5ive",
+        "album": "QUALCUNO HA FATTO LA SPIA (feat. Artie 5ive)",
         "ytId": ""
     },
     {
         "title": "Drip a noleggio",
         "artist": "Joejoe",
+        "album": "Drip a noleggio",
         "ytId": ""
     },
     {
         "title": "Tocco Pitocco",
         "artist": "RRARI DAL TACCO",
+        "album": "Tocco Pitocco",
         "ytId": ""
     },
     {
         "title": "Calimero",
         "artist": "Young Hash, RRARI DAL TACCO",
+        "album": "Calimero",
         "ytId": ""
     },
     {
         "title": "BISEX (feat. Yung Snapp)",
         "artist": "Low-Red, Yung Snapp",
+        "album": "THE BIGGEST SBLAO",
         "ytId": ""
     },
     {
         "title": "M A Y B A C H",
         "artist": "Astro",
+        "album": "ASTRO DELUXE",
         "ytId": ""
     },
     {
         "title": "Miami Vice (feat. Sfera Ebbasta, Simba La Rue)",
         "artist": "Luchè, Sfera Ebbasta, Simba La Rue",
+        "album": "Il mio lato peggiore",
         "ytId": ""
     },
     {
         "title": "Sciamanin",
         "artist": "Young Hash, DBZ",
+        "album": "Sciamanin",
         "ytId": ""
     },
     {
         "title": "TOP PLAYER",
         "artist": "The Luxe",
+        "album": "TOP PLAYER",
         "ytId": ""
     },
     {
         "title": "MARTEDÌ GRASSO (feat. Diss Gacha)",
         "artist": "LILCR, Diss Gacha",
+        "album": "PROGETTO X",
         "ytId": ""
     },
     {
         "title": "Rivalsa (feat. 22simba)",
         "artist": "Gheba, 22simba, Pave",
+        "album": "Fame di Rivalsa",
         "ytId": ""
     },
     {
         "title": "DRIP DROP",
         "artist": "MamboLosco",
+        "album": "DRIP DROP",
         "ytId": ""
     },
     {
         "title": "Star (feat. Shiva)",
         "artist": "Paky, Shiva",
+        "album": "Salvatore",
         "ytId": ""
     },
     {
         "title": "PACHAMAMA (feat. Rhove)",
         "artist": "Sayf, Rhove",
+        "album": "SE DIO VUOLE",
         "ytId": ""
     },
     {
         "title": "FLASH FLASH",
         "artist": "Pyrex",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "FINEST (feat. Tedua)",
         "artist": "Pyrex, Tedua",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "DARKMONEY (feat. Sfera Ebbasta)",
         "artist": "Pyrex, Sfera Ebbasta",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "COME UN LADRO (feat. Shiva)",
         "artist": "Pyrex, Shiva",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "BUSINESS BOY (feat. Tony Effe)",
         "artist": "Pyrex, Tony Effe",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "POOL TECHNO (feat. Capo Plaza)",
         "artist": "Pyrex, Capo Plaza",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "K.O.D",
         "artist": "Pyrex",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "PROMESSE NON MANTENUTE (feat. Side Baby)",
         "artist": "Pyrex, Side Baby",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "PELLE NERA (feat. Wayne)",
         "artist": "Pyrex, Wayne",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "VANIGLIA",
         "artist": "Pyrex",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "CHE C'È?! (feat. Rrari Dal Tacco, Flaco G)",
         "artist": "Pyrex, RRARI DAL TACCO, Flaco G",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "SPECCHIO RIFLESSO",
         "artist": "Pyrex",
+        "album": "KING OF DARK",
         "ytId": ""
     },
     {
         "title": "OSSESSIONE",
         "artist": "Samurai Jay, Vito Salamanca",
+        "album": "OSSESSIONE",
         "ytId": ""
     },
     {
         "title": "CHANELINA SOUBRETTE (feat. Disme & Ele A)",
         "artist": "Sayf, Disme, Ele A",
+        "album": "CHANELINA SOUBRETTE (feat. Disme & Ele A)",
         "ytId": ""
     },
     {
         "title": "TR*P",
         "artist": "Sayf, Sgribaz",
+        "album": "TR*P",
         "ytId": ""
     },
     {
         "title": "TU MI PIACI TANTO",
         "artist": "Sayf, Dibla, Jiz",
+        "album": "TU MI PIACI TANTO",
         "ytId": ""
     },
     {
         "title": "JavaScript",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "IQOS",
         "artist": "Hammon",
+        "album": "IQOS",
         "ytId": ""
     },
     {
         "title": "Hotline Bling",
         "artist": "Drake",
+        "album": "Views",
         "ytId": ""
     },
     {
         "title": "God's Plan",
         "artist": "Drake",
+        "album": "Scorpion",
         "ytId": ""
     },
     {
         "title": "SHYNE",
         "artist": "Travis Scott, GloRilla",
+        "album": "SHYNE",
         "ytId": ""
     },
     {
         "title": "Lane Splitter",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Non Ti Scordar Mai Di Me (Tutorial 4)",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Licenza Di Rubare",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Torna Da Me",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "È Stato Stupido",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Yea Yea",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Stronzate Da Rapper (Non Ho Mai)",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Gli Uomini Ti Scammano (Tutorial 3)",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Io Sono Un Grande Tu Sei Un Incapace",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Homeless (Sergio)",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Fare Soldi",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Milano Non È Così Bad",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Il Metodo Migliore (Tutorial 2)",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "56 Barre Cattive",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "Non Essere Cattivo",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "T Guardav",
         "artist": "Hammon",
+        "album": "Cattivissimo Rap",
         "ytId": ""
     },
     {
         "title": "HCU Intro",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Storia Di Un Proiettile",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Calcolo",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Terry Davis",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "P.G.D.T.I.T.",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Danni Da Perc",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "La Canzone Peggiore Del Mondo",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "La Canzone Migliore Del Mondo",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Arrivo A Milano",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Babababababa",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "IQOS",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Amo Gli Animali",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Parlo Con Gli Illuminati A C'è Posta Per Te",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "Music Business",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "O Mamma",
         "artist": "Hammon",
+        "album": "Hammon Cinematic Universe",
         "ytId": ""
     },
     {
         "title": "C’est La Vie",
         "artist": "Fre_nky",
+        "album": "C’est La Vie",
         "ytId": ""
     },
     {
         "title": "Giovani Re",
         "artist": "Sfera Ebbasta",
+        "album": "Famoso",
         "ytId": ""
     },
     {
         "title": "V per Vangelo",
         "artist": "Shiva",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Polvere Rosa",
         "artist": "Shiva",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Obsessed",
         "artist": "Shiva, ANNA",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Peccati",
         "artist": "Shiva",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Bad Bad Bad",
         "artist": "Shiva, Geolier",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Take 6",
         "artist": "Shiva",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Dio Esiste",
         "artist": "Shiva",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Babyface",
         "artist": "Shiva, Kid Yugi",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Spie",
         "artist": "Shiva",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Bacio di Giuda",
         "artist": "Shiva, Tiziano Ferro",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Mayday",
         "artist": "Shiva, Lazza, Sfera Ebbasta",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Risorgere",
         "artist": "Shiva",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Coscienza",
         "artist": "Shiva",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Babyface",
         "artist": "Shiva, Kid Yugi",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Babyface",
         "artist": "Shiva, Kid Yugi",
+        "album": "Vangelo",
         "ytId": ""
     },
     {
         "title": "Self Aware",
         "artist": "Temper City",
+        "album": "Self Aware",
         "ytId": ""
     },
     {
         "title": "Runaway",
         "artist": "Kanye West, Pusha T",
+        "album": "My Beautiful Dark Twisted Fantasy",
         "ytId": ""
     },
     {
         "title": "Fragile",
         "artist": "Sfera Ebbasta",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "Ciao Bella",
         "artist": "Sfera Ebbasta, ANNA",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "G63",
         "artist": "Sfera Ebbasta, Lazza, Shiva",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "VDLC",
         "artist": "Sfera Ebbasta",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "Anche Stasera",
         "artist": "Sfera Ebbasta, Elodie",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "Momenti No",
         "artist": "Sfera Ebbasta, Tedua",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "Milano Bene",
         "artist": "Sfera Ebbasta",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "3uphon",
         "artist": "Sfera Ebbasta, thasup, Tony Effe",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "Complicato",
         "artist": "Sfera Ebbasta, Paky",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "Gol",
         "artist": "Sfera Ebbasta, Guè",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "Calcolatrici",
         "artist": "Sfera Ebbasta, Geolier, Simba La Rue, Baby Gang",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "15 Piani",
         "artist": "Sfera Ebbasta, Marracash",
+        "album": "X2VR",
         "ytId": ""
     },
     {
         "title": "SNTMNG",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "NON METTERCI BECCO",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "MOLECOLE SPRITE",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "MAYBACH",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "MNGSNT",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "D&G",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "OVER (demo)",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "PARANOIA",
         "artist": "Sfera Ebbasta, Shiva",
+        "album": "SANTANA MONEY GANG",
         "ytId": ""
     },
     {
         "title": "Rockstar",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "Serpenti A Sonagli",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "Cupido (feat. Quavo)",
         "artist": "Sfera Ebbasta, Quavo",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "XNX",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "Ricchi x Sempre",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "Uber",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "Leggenda",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "Bancomat",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "Sciroppo (feat. DrefGold)",
         "artist": "Sfera Ebbasta, DrefGold",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "20 Collane",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "Tran Tran",
         "artist": "Sfera Ebbasta",
+        "album": "Rockstar",
         "ytId": ""
     },
     {
         "title": "MOTIVATION 4 THE STREETZ (SKIT)",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "RED&BLUE",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "GURU DEL BUSINESS",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "HOODRICH",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "NULLA ACCADE (feat. Capo Plaza)",
         "artist": "Artie 5ive, Rondodasosa, Capo Plaza",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "BETTER 4 ME",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "HALL OF FAME (feat. Rose Villain)",
         "artist": "Artie 5ive, Rondodasosa, Rose Villain",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "VENGO DA DOVE",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "CRISI D’ASTINENZA (feat. Achille Lauro, Dessy)",
         "artist": "Artie 5ive, Rondodasosa, Achille Lauro, Dessy",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "GAMBLER (feat. Rasty Kilo)",
         "artist": "Artie 5ive, Rondodasosa, Rasty Kilo",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "MATRIX (SKIT)",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "VIVI O MUORI",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "YEH OH!",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "MONEY SEX BEEF (feat. Tony Effe)",
         "artist": "Artie 5ive, Rondodasosa, Tony Effe",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "PISTOLA NEI JEANS (CRIPWALK) [feat. Bello Figo]",
         "artist": "Artie 5ive, Rondodasosa, Bello Figo",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "BOULEVARD",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "SE MORISSI OGGI",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "MOTIVATION 4 THE STREETZ",
         "ytId": ""
     },
     {
         "title": "RED&BLUE",
         "artist": "Artie 5ive, Rondodasosa",
+        "album": "RED&BLUE",
         "ytId": ""
     },
     {
         "title": "MODALITÀ DARK",
         "artist": "Tony Effe, Side Baby, Sick Luke",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "VATICANO",
         "artist": "Tony Effe, Side Baby, Sick Luke",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "BANCONOTE EURO",
         "artist": "Tony Effe, Side Baby, Sick Luke",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "CC2 (feat. Pyrex)",
         "artist": "Tony Effe, Side Baby, Sick Luke, Pyrex",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "PUNK",
         "artist": "Tony Effe, Nko",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "7 GIORNI SU 7",
         "artist": "Side Baby",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "MI PIACE",
         "artist": "Tony Effe, Side Baby, Sick Luke",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "POLO RALPH",
         "artist": "Tony Effe, Side Baby, Nko",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "AS ROMA",
         "artist": "Tony Effe, Side Baby",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "ERD",
         "artist": "Tony Effe",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "CARTA FORBICE SASSO",
         "artist": "Side Baby, Sick Luke",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "FOREVER (feat. Wayne)",
         "artist": "Tony Effe, Side Baby, Sick Luke, Wayne",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "MUSICA DI CONTRABBANDO (feat. Zep Dembo)",
         "artist": "Tony Effe, Side Baby, Sick Luke, Zep Dembo",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "CASHMERE",
         "artist": "Tony Effe, Side Baby, Sick Luke",
+        "album": "CRACK MUSICA II",
         "ytId": ""
     },
     {
         "title": "DAMME 'NA MANO",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "PEZZI DA 100 (feat. Kid Yugi)",
         "artist": "Tony Effe, Kid Yugi, Sick Luke",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "CHIARA",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "SESSO E SAMBA (feat. Gaia)",
         "artist": "Tony Effe, Gaia",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "VERO TONY VERO SOSA",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "PILLOLE (feat. Sfera Ebbasta & Geolier)",
         "artist": "Tony Effe, Sfera Ebbasta, Geolier",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "CARRARA (feat. Simba La Rue)",
         "artist": "Tony Effe, Simba La Rue",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "PARTICOLARI SPORCHI",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "HONEY (feat. Lazza & Capo Plaza)",
         "artist": "Tony Effe, Lazza, Capo Plaza",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "MIU MIU",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "GTA (feat. Ghali)",
         "artist": "Tony Effe, Ghali",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "DOPO LE 4 (feat. Bresh & Tedua)",
         "artist": "Tony Effe, Bresh, Tedua",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "ICON",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "MAISON",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "LAP DANCE (feat. Side Baby & Pyrex)",
         "artist": "Tony Effe, Pyrex, Side Baby",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "DEMON TIME (feat. Guè)",
         "artist": "Tony Effe, Guè",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "BALENCIAGA (feat. Rose Villain)",
         "artist": "Tony Effe, Rose Villain",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "P",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "SORRY",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "BOSS",
         "artist": "Tony Effe",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "TAXI SULLA LUNA (feat. Emma & Takagi & Ketra)",
         "artist": "Tony Effe, Emma, Takagi & Ketra",
+        "album": "ICON",
         "ytId": ""
     },
     {
         "title": "Labirinto",
         "artist": "Luchè",
+        "album": "Labirinto",
         "ytId": ""
     },
     {
         "title": "Addosso",
         "artist": "Kuremino",
+        "album": "Addosso",
         "ytId": ""
     },
     {
         "title": "BUBBLE (feat. thasup & Salmo)",
         "artist": "Takagi & Ketra, thasup, Salmo",
+        "album": "BUBBLE (feat. thasup & Salmo)",
         "ytId": ""
     },
     {
         "title": "NEW YORK",
         "artist": "Rondodasosa, Nko",
+        "album": "NEW YORK",
         "ytId": ""
     },
     {
         "title": "Gelosa (feat. Shiva, Sfera Ebbasta, Guè)",
         "artist": "Finesse, Shiva, Sfera Ebbasta, Guè, Drillionaire",
+        "album": "Gelosa (feat. Shiva, Sfera Ebbasta, Guè)",
         "ytId": ""
     },
     {
         "title": "Pensando a lei",
         "artist": "Shiva",
+        "album": "Pensando a lei",
         "ytId": ""
     },
     {
         "title": "ALBV",
         "artist": "Artie 5ive",
+        "album": "ALBV",
         "ytId": ""
     },
     {
         "title": "!ly (feat. Coez)",
         "artist": "thasup, Coez",
+        "album": "c@ra++ere s?ec!@le",
         "ytId": ""
     },
     {
         "title": "r()t()nda (feat. Tiziano Ferro)",
         "artist": "thasup, Tiziano Ferro",
+        "album": "c@ra++ere s?ec!@le",
         "ytId": ""
     },
     {
         "title": "Ancora",
         "artist": "Rhove",
+        "album": "Ancora",
         "ytId": ""
     },
     {
         "title": "BOSS",
         "artist": "Tony Effe",
+        "album": "BOSS",
         "ytId": ""
     },
     {
         "title": "Niente da perdere",
         "artist": "Shiva",
+        "album": "Dark Love EP",
         "ytId": ""
     },
     {
         "title": "ALDILÀ",
         "artist": "Melons, Ddusi",
+        "album": "ALDILÀ",
         "ytId": ""
     },
     {
         "title": "MARTELLARE",
         "artist": "Melons, Sick Luke",
+        "album": "SHAYTAN",
         "ytId": ""
     },
     {
         "title": "PAZZO OMICIDA",
         "artist": "Melons, Sick Luke",
+        "album": "SHAYTAN",
         "ytId": ""
     },
     {
         "title": "NIENTE PACE (feat. Niko Pandetta & IvanBi)",
         "artist": "Melons, Sick Luke, Niko Pandetta, IvanBi",
+        "album": "SHAYTAN",
         "ytId": ""
     },
     {
         "title": "CASE DELL'ORRORE",
         "artist": "Melons, Sick Luke",
+        "album": "SHAYTAN",
         "ytId": ""
     },
     {
         "title": "NUVOLE ROSSE (feat. LILCR)",
         "artist": "Melons, Sick Luke, LILCR",
+        "album": "SHAYTAN",
         "ytId": ""
     },
     {
         "title": "FULL",
         "artist": "Vena, Narcio, Yun-g",
+        "album": "FULL",
         "ytId": ""
     },
     {
         "title": "Giovani G",
         "artist": "Vena",
+        "album": "Giovani G",
         "ytId": ""
     },
     {
         "title": "+ FORTE",
         "artist": "18K, Latrelle, Ed Mars",
+        "album": "+ FORTE",
         "ytId": ""
     },
     {
         "title": "Viagra (feat. Kid Yugi)",
         "artist": "Jake La Furia, Kid Yugi, Night Skinny",
+        "album": "FAME",
         "ytId": ""
     },
     {
         "title": "Old Fashion (feat. Promessa e Flaco G)",
         "artist": "22simba, Promessa, Flaco G",
+        "album": "Old Fashion (feat. Promessa e Flaco G)",
         "ytId": ""
     },
     {
         "title": "DAGESTAN",
         "artist": "Glasond",
+        "album": "DAGESTAN",
         "ytId": ""
     },
     {
         "title": "Drip (feat. Simba La Rue, FT Kings)",
         "artist": "Néza, Simba La Rue, FT Kings",
+        "album": "Drip (feat. Simba La Rue, FT Kings)",
         "ytId": ""
     },
     {
         "title": "Rap Leggenda",
         "artist": "Tedua",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "SWAG MUSIC",
         "artist": "Artie 5ive",
+        "album": "SWAG MUSIC",
         "ytId": ""
     },
     {
         "title": "DAL TACCO",
         "artist": "RRARI DAL TACCO",
+        "album": "DAL TACCO",
         "ytId": ""
     },
     {
         "title": "AYAYAY",
         "artist": "Sfera Ebbasta, DYSTINCT",
+        "album": "AYAYAY",
         "ytId": ""
     },
     {
         "title": "AYAYAY",
         "artist": "Sfera Ebbasta, DYSTINCT",
+        "album": "AYAYAY",
         "ytId": ""
     },
     {
         "title": "4 Gambe",
         "artist": "Nerissima Serpe, Night Skinny",
+        "album": "4 Gambe",
         "ytId": ""
     },
     {
         "title": "ASTP",
         "artist": "Lory G, Sum M",
+        "album": "ASTP",
         "ytId": ""
     },
     {
         "title": "Tacco di Prada",
         "artist": "Lory G, Pocho, Sum M",
+        "album": "Tacco di Prada",
         "ytId": ""
     },
     {
         "title": "FaXXX (feat. Latrelle)",
         "artist": "Tedua, Latrelle",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Uno+Gangsta (feat. Nerissima Serpe)",
         "artist": "Tedua, Nerissima Serpe",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Mai",
         "artist": "Tedua",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Felpa Nera (feat. ANNA)",
         "artist": "Tedua, ANNA",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Too Late",
         "artist": "Tedua",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Hoola Hop (feat. Ernia)",
         "artist": "Tedua, Ernia",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Volare",
         "artist": "Tedua",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Ryan Ted Freestyle",
         "artist": "Tedua",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Giovane e Bello (feat. Sayf)",
         "artist": "Tedua, Sayf",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Gli Anni",
         "artist": "Tedua",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Gravità (feat. Latrelle)",
         "artist": "Tedua, Latrelle",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Blue",
         "artist": "Tedua",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Veliero di Carta",
         "artist": "Tedua",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Chuniri",
         "artist": "Tedua, SHUNE",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Lettera a Tedua",
         "artist": "Tedua, SHUNE",
+        "album": "RYAN TED",
         "ytId": ""
     },
     {
         "title": "Big City Life RMX",
         "artist": "Unknown Artist",
+        "album": "Bho",
         "ytId": ""
     },
     {
         "title": "64 BARRE DI TERRORE (Red Bull 64 Bars)",
         "artist": "Kid Yugi",
+        "album": "64 BARRE DI TERRORE (Red Bull 64 Bars)",
         "ytId": ""
     },
     {
         "title": "WHITE GIRL WASTED",
         "artist": "ANNA",
+        "album": "WHITE GIRL WASTED",
         "ytId": ""
     },
     {
         "title": "suno-a4798cae-167a-466b-9b68-395ed686b6bc (1)",
         "artist": "Unknown Artist",
+        "album": "Unknown Album",
         "ytId": ""
     },
     {
         "title": "MILLION DOLLAR BABE",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "DON'T TELL NOBODY",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "WHITE GIRL WASTED",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "SONO IO IL PASS (feat. Lazza)",
         "artist": "ANNA, Lazza",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "CATALANO",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "CUORE IN OFF",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "SCONTROSA (feat. G.Mineiro)",
         "artist": "ANNA, G.Mineiro",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "SAFARI (feat. Astro & Tony Boy)",
         "artist": "ANNA, Astro, Tony Boy",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "CRYSTAL COLLO",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "HOT POT (interlude)",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "U LIKE ME",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "BENIHANA",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "HONEY",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "VELENO",
         "artist": "ANNA",
+        "album": "MILLION DOLLAR BABE",
         "ytId": ""
     },
     {
         "title": "Splinter Cell",
         "artist": "G.Mineiro, Flatpearl, Jiz, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "E Allora",
         "artist": "G.Mineiro, Flatpearl, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Devo Andare Con Le Mie Winx (feat. Rhove)",
         "artist": "G.Mineiro, Rhove, Flatpearl, Succo, Balanta",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Scendo E Cerco Un’Altra",
         "artist": "G.Mineiro, Flatpearl, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Loco In Discoteca (feat. Yuri Redicopa)",
         "artist": "G.Mineiro, Flatpearl, Succo, Yuri Redicopa, Soy Ares",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Malpensa",
         "artist": "G.Mineiro, Flatpearl, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Impunità (feat. Scaccia)",
         "artist": "G.Mineiro, Scaccia, Flatpearl, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Pique Mecanico",
         "artist": "G.Mineiro, Loreto Paradiso, Flatpearl, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Favelà (feat. Soubra, Kaio)",
         "artist": "G.Mineiro, Soubra, Kaio, Jiz, Flatpearl, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Salta Salta",
         "artist": "G.Mineiro, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "PATROCINIO",
         "artist": "G.Mineiro, Flatpearl, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "Bimbo Crudele",
         "artist": "G.Mineiro, Flatpearl, Succo",
+        "album": "È O G.",
         "ytId": ""
     },
     {
         "title": "white",
         "artist": "Adri, MiQu",
+        "album": "white",
         "ytId": ""
     }
 ];
@@ -2455,8 +2872,33 @@
             initGame();
         }
 
+        // Funzione per nascondere i titoli reali dal player iOS e Control Center
+        function setupObfuscatedMediaSession() {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: 'Ascolta e indovina...',
+                    artist: '☀️ Heardle',
+                    album: 'Album offuscato',
+                    artwork: [{ src: 'https://placehold.co/500x500/16161c/ff5e7e?text=Heardle+☀️', sizes: '512x512', type: 'image/png' }]
+                });
+            }
+        }
+
+        function setupFinalMediaSession(title, artist, album, ytId) {
+            if ('mediaSession' in navigator) {
+                const coverUrl = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: title,
+                    artist: artist,
+                    album: album,
+                    artwork: [{ src: coverUrl, sizes: '480x360', type: 'image/jpeg' }]
+                });
+            }
+        }
+
         async function initGame() {
             document.getElementById('end-modal').style.display = 'none';
+            document.getElementById('cover-art-container').style.display = 'none';
             document.getElementById('guess-input').value = '';
             document.getElementById('loader').style.display = 'flex';
             document.getElementById('loader-status').innerText = 'Scelta della canzone segreta...';
@@ -2464,6 +2906,7 @@
             isPlaying = false;
             currentAttempt = 0;
             updateTimeInfo();
+            setupObfuscatedMediaSession();
 
             for (let i = 0; i < 6; i++) {
                 const box = document.getElementById(`attempt-${i}`);
@@ -2489,7 +2932,6 @@
                 player.pauseVideo();
                 document.getElementById('loader').style.display = 'none';
             } else {
-                // MODIFICA NO-COOKIE E NO-ADS: Configurato per usare youtube-nocookie.com
                 player = new YT.Player('yt-player', {
                     host: 'https://www.youtube-nocookie.com',
                     videoId: activeSong.ytId,
@@ -2500,7 +2942,7 @@
                         'fs': 0,
                         'modestbranding': 1,
                         'rel': 0,
-                        'iv_load_policy': 3, // Rimuove annotazioni video
+                        'iv_load_policy': 3,
                         'html5': 1
                     },
                     events: {
@@ -2519,9 +2961,8 @@
             }
         }
 
-        // Funzione ottimizzata per cercare su YouTube con fallback robusti (Esclude video ufficiali ad alta densità di Ads)
+        // Funzione ottimizzata per cercare su YouTube con fallback robusti
         async function findYouTubeVideo(title, artist) {
-            // Cerchiamo le versioni "Topic" o "Lyrics" che non presentano quasi mai le pubblicità video di YouTube
             const query = `${title} ${artist} audio`;
             
             if (apiKey) {
@@ -2581,6 +3022,7 @@
 
         function togglePlay() {
             if (!player || typeof player.getPlayerState !== 'function') return;
+            setupObfuscatedMediaSession(); // Rinsalda l'offuscamento appena premi play
             if (isPlaying) { pauseAudio(); } else { playAudio(); }
         }
 
@@ -2707,10 +3149,24 @@
             const title = document.getElementById('modal-title');
             const text = document.getElementById('modal-text');
             const info = document.getElementById('modal-song-info');
+            const albumInfo = document.getElementById('modal-album-info');
+            const coverContainer = document.getElementById('cover-art-container');
+            const coverImg = document.getElementById('cover-art-img');
 
             title.innerText = won ? "Hai vinto!" : "Game Over";
             text.innerText = won ? "Ottimo orecchio! Canzone indovinata:" : "La canzone era:";
             info.innerText = `${activeSong.artist} - ${activeSong.title}`;
+            
+            // 1. Mostra l'album name
+            albumInfo.innerText = `Album: ${activeSong.album}`;
+
+            // 2. Mostra la copertina presa direttamente da YouTube
+            const coverUrl = `https://img.youtube.com/vi/${activeSong.ytId}/0.jpg`;
+            coverImg.src = coverUrl;
+            coverContainer.style.display = 'block';
+
+            // 3. Sblocca le informazioni reali sul Control Center di iOS ora che la partita è finita
+            setupFinalMediaSession(activeSong.title, activeSong.artist, activeSong.album, activeSong.ytId);
 
             modal.style.display = "flex";
         }
