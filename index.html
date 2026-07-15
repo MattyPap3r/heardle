@@ -1,0 +1,2652 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>☀️ Heardle</title>
+    <style>
+        :root {
+            --bg-color: #0f0f12;
+            --card-color: #16161c;
+            --text-color: #f5f5f7;
+            --accent-color: #ff5e7e; /* Un bellissimo rosa/arancio caldo estivo */
+            --border-color: #262630;
+            --success-color: #1db954;
+            --error-color: #e53935;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        header {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(45deg, #ff5e7e, #ff9f43);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .settings-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-grow: 1;
+        }
+
+        /* Lista tentativi */
+        .attempts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .attempt-box {
+            height: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            font-size: 14px;
+            background-color: var(--card-color);
+            transition: all 0.2s ease;
+        }
+
+        .attempt-box.empty {
+            border-style: dashed;
+            opacity: 0.5;
+        }
+
+        .attempt-box.incorrect {
+            background-color: var(--error-color);
+            border-color: var(--error-color);
+            color: white;
+        }
+
+        .attempt-box.correct {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        /* Controlli Player */
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            background: var(--card-color);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background-color: #2c2c35;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-color), #ff9f43);
+            transition: width 0.1s linear;
+        }
+
+        .time-marker {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: var(--card-color);
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--accent-color), #ff9f43);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(255, 94, 126, 0.3);
+        }
+
+        .play-btn:active {
+            transform: scale(0.95);
+        }
+
+        .time-info {
+            font-size: 13px;
+            color: #8e8e93;
+            font-weight: 500;
+        }
+
+        /* Input di gioco & Autocomplete */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-color);
+            color: var(--text-color);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* Menu suggerimenti */
+        .suggestions {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            margin-bottom: 5px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+            display: none;
+        }
+
+        .suggestion-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:active {
+            background-color: #22222e;
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button.action-btn:active {
+            opacity: 0.8;
+        }
+
+        .skip-btn {
+            background-color: #2c2c35;
+            color: white;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent-color), #ff9f43);
+            color: white;
+        }
+
+        /* Iframe YouTube Nascosto */
+        #yt-player {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0.01;
+            pointer-events: none;
+        }
+
+        /* Modali / Dialoghi */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.9);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background-color: var(--card-color);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal h2 {
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+
+        .modal p {
+            margin-bottom: 16px;
+            color: #a1a1aa;
+            font-size: 15px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, var(--accent-color), #ff9f43);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Status Loader */
+        .loader-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 15, 18, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 94, 126, 0.1);
+            border-top: 4px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>☀️ HEARDLE</h1>
+        <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+    </header>
+
+    <!-- Schermata caricamento -->
+    <div id="loader" class="loader-overlay">
+        <div class="spinner"></div>
+        <p id="loader-status">Inizializzazione gioco...</p>
+    </div>
+
+    <div class="game-container">
+        <!-- I 6 tentativi -->
+        <div class="attempts-container" id="attempts">
+            <div class="attempt-box empty" id="attempt-0"></div>
+            <div class="attempt-box empty" id="attempt-1"></div>
+            <div class="attempt-box empty" id="attempt-2"></div>
+            <div class="attempt-box empty" id="attempt-3"></div>
+            <div class="attempt-box empty" id="attempt-4"></div>
+            <div class="attempt-box empty" id="attempt-5"></div>
+        </div>
+
+        <!-- Controlli audio -->
+        <div class="player-controls">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress"></div>
+                <div class="time-marker" style="left: 6.25%;"></div>
+                <div class="time-marker" style="left: 12.5%;"></div>
+                <div class="time-marker" style="left: 25%;"></div>
+                <div class="time-marker" style="left: 43.75%;"></div>
+                <div class="time-marker" style="left: 68.75%;"></div>
+            </div>
+            
+            <div class="time-info">
+                <span id="current-time">0:00</span> / <span id="max-time">0:01</span>s
+            </div>
+
+            <button class="play-btn" id="play-btn" onclick="togglePlay()">▶</button>
+        </div>
+
+        <!-- Area di risposta -->
+        <div class="input-section" id="input-section">
+            <div class="search-container">
+                <input type="text" id="guess-input" placeholder="Cerca canzone o artista..." autocomplete="off" oninput="showSuggestions(this.value)">
+                <div class="suggestions" id="suggestions"></div>
+            </div>
+            <div class="buttons-row">
+                <button class="action-btn skip-btn" onclick="skipTurn()">SALTA</button>
+                <button class="action-btn submit-btn" onclick="submitGuess()">INVIA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Div per player YouTube -->
+    <div id="yt-player"></div>
+
+    <!-- Modale Fine Gioco -->
+    <div class="modal" id="end-modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Risultato</h2>
+            <p id="modal-text"></p>
+            <p id="modal-song-info" style="font-weight: 700; color: var(--accent-color); margin-bottom: 24px; font-size: 18px;"></p>
+            <button class="restart-btn" onclick="initGame()">Gioca ancora</button>
+        </div>
+    </div>
+
+    <!-- Modale Impostazioni API -->
+    <div class="modal" id="settings-modal" style="display:none;">
+        <div class="modal-content">
+            <h2>Impostazioni</h2>
+            <p>Per cercare automaticamente le canzoni su YouTube senza limiti, inserisci la tua API Key di Google Cloud (YouTube Data API v3):</p>
+            <input type="text" id="api-key-input" placeholder="Incolla qui la tua API Key..." style="margin-bottom: 20px;">
+            <button class="restart-btn" onclick="saveSettings()" style="margin-bottom: 10px;">Salva</button>
+            <button class="restart-btn skip-btn" onclick="toggleSettings()">Chiudi</button>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        // Carichiamo tutte le 390 canzoni esportate dalla playlist!
+        const playlist = [
+    {
+        "title": "BIANCA (feat. Kid Yugi)",
+        "artist": "RRARI DAL TACCO, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "6SEI6 (feat. Massimo Pericolo)",
+        "artist": "Kid Yugi, Massimo Pericolo",
+        "ytId": ""
+    },
+    {
+        "title": "Donna",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "S.X.S.I.C.",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Ex Angelo - Original Version",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "64 BARRE DA CENSURA (Red Bull 64 Bars)",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Eva",
+        "artist": "Kid Yugi, Tedua, Junior K",
+        "ytId": ""
+    },
+    {
+        "title": "Servizio (feat. Papa V, Noyz Narcos)",
+        "artist": "Kid Yugi, Papa V, Noyz Narcos",
+        "ytId": ""
+    },
+    {
+        "title": "Il Signore delle Mosche",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Lilith",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Denaro (feat. Simba La Rue)",
+        "artist": "Kid Yugi, Simba La Rue",
+        "ytId": ""
+    },
+    {
+        "title": "Yung 3p 4",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Ilva (Fume scure rmx) (feat. Fido Guido)",
+        "artist": "Kid Yugi, Fido Guido",
+        "ytId": ""
+    },
+    {
+        "title": "Paganini",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Ex Angelo (feat. Sfera Ebbasta)",
+        "artist": "Kid Yugi, Sfera Ebbasta, Shablo",
+        "ytId": ""
+    },
+    {
+        "title": "SEI PERSA",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "NEON",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "VVS CARTIER",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Speranza (feat. Diss Gacha)",
+        "artist": "22simba, Timon, Diss Gacha",
+        "ytId": ""
+    },
+    {
+        "title": "Porto il Commerciale (feat. Artie 5ive)",
+        "artist": "Kid Yugi, Night Skinny, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "Massafghanistan",
+        "artist": "Kid Yugi, Night Skinny",
+        "ytId": ""
+    },
+    {
+        "title": "DEM (feat. Artie 5ive & Tony Boy)",
+        "artist": "Kid Yugi, Artie 5ive, Tony Boy",
+        "ytId": ""
+    },
+    {
+        "title": "STUPIDA (feat. Artie 5ive)",
+        "artist": "Niky Savage, Blssd, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "BAAAD",
+        "artist": "Niky Savage, Nko",
+        "ytId": ""
+    },
+    {
+        "title": "Capra a tre Teste (feat. Tony Boy, Artie 5ive)",
+        "artist": "Kid Yugi, Tony Boy, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "MANESKIN (feat. Ghali, Shiva)",
+        "artist": "Sadturs, KIID, Ghali, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "38 (feat. RRARI DAL TACCO, Artie 5ive)",
+        "artist": "Sadturs, KIID, RRARI DAL TACCO, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "7ELEVEN",
+        "artist": "Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "Backrooms",
+        "artist": "k1dvuller",
+        "ytId": ""
+    },
+    {
+        "title": "Blow Up",
+        "artist": "k1dvuller",
+        "ytId": ""
+    },
+    {
+        "title": "GRAMMELOT",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Yung 3p 3",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Il Ferro di Čechov",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Kabuki",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Sintetico (feat. Tony Boy)",
+        "artist": "Kid Yugi, Night Skinny, Tony Boy",
+        "ytId": ""
+    },
+    {
+        "title": "Lo Faccio per Me (feat. Astro)",
+        "artist": "Kid Yugi, Night Skinny, Astro",
+        "ytId": ""
+    },
+    {
+        "title": "Players Club '23 (Knights of the Posse) (feat. Nerissima Serpe, Artie 5ive, Tony Boy, Papa V, Low Red, Digital Astro & Kid Yugi)",
+        "artist": "Night Skinny, Nerissima Serpe, Artie 5ive, Tony Boy, Papa V, Low-Red, Astro, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "NON NE VALI LA PENA (feat. Kid Yugi)",
+        "artist": "RRARI DAL TACCO, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "100MILA",
+        "artist": "Rasty Kilo, Tony Boy, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Culto Boy (feat. Kid Yugi)",
+        "artist": "Cancun, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "King Lear (feat. Sosa Priority)",
+        "artist": "Kid Yugi, Sosa Priority",
+        "ytId": ""
+    },
+    {
+        "title": "Players Club '24 (feat. Low-Red, Tony Boy, Papa V, Nerissima Serpe, Artie 5ive, Kid Yugi, Astro)",
+        "artist": "Night Skinny, Low-Red, Kid Yugi, Tony Boy, Papa V, Nerissima Serpe, Artie 5ive, Astro",
+        "ytId": ""
+    },
+    {
+        "title": "FELLINI (feat. Kid Yugi)",
+        "artist": "Ernia, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Minaccia",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Lamelo",
+        "artist": "Faneto",
+        "ytId": ""
+    },
+    {
+        "title": "Trench Code (feat. Faneto)",
+        "artist": "Melons, Faneto",
+        "ytId": ""
+    },
+    {
+        "title": "Dissing P",
+        "artist": "Melons, Ddusi",
+        "ytId": ""
+    },
+    {
+        "title": "Man Down!",
+        "artist": "Melons",
+        "ytId": ""
+    },
+    {
+        "title": "Mossa Strepitosa (feat. Kid Yugi)",
+        "artist": "Papa V, Night Skinny, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Tu Mi Piaci (feat. Artie 5ive)",
+        "artist": "Papa V, Night Skinny, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "COME SE NON FOSSI NEI GUAI",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Warzone (feat. Artie 5ive, Capo Plaza & Nerissima Serpe)",
+        "artist": "Nko, Artie 5ive, Capo Plaza, Nerissima Serpe",
+        "ytId": ""
+    },
+    {
+        "title": "Berserker",
+        "artist": "Kid Yugi, Ill Santo, FT Kings",
+        "ytId": ""
+    },
+    {
+        "title": "BIG CEO",
+        "artist": "LILCR",
+        "ytId": ""
+    },
+    {
+        "title": "Problem Solver",
+        "artist": "Glocky",
+        "ytId": ""
+    },
+    {
+        "title": "G&V",
+        "artist": "IvanBi",
+        "ytId": ""
+    },
+    {
+        "title": "Scama",
+        "artist": "Young Hash, Mothz, Ksub",
+        "ytId": ""
+    },
+    {
+        "title": "DUOMO",
+        "artist": "Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "Latte in Polvere",
+        "artist": "Papa V, Night Skinny",
+        "ytId": ""
+    },
+    {
+        "title": "30ºC",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "Beatrice (feat. Annalisa)",
+        "artist": "Tedua, Annalisa",
+        "ytId": ""
+    },
+    {
+        "title": "Soldi in Nero - feat. Sfera Ebbasta",
+        "artist": "Shiva, Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Halo",
+        "artist": "Samurai Jay, Vito Salamanca",
+        "ytId": ""
+    },
+    {
+        "title": "blun7 a swishland",
+        "artist": "thasup",
+        "ytId": ""
+    },
+    {
+        "title": "DONNE RICCHE - Acoustic Version",
+        "artist": "TonyPitony",
+        "ytId": ""
+    },
+    {
+        "title": "DIRTY",
+        "artist": "Basti, Deal",
+        "ytId": ""
+    },
+    {
+        "title": "Good Times",
+        "artist": "Ghali",
+        "ytId": ""
+    },
+    {
+        "title": "Thick (feat. MamboLosco) - Remix",
+        "artist": "Slings, MamboLosco",
+        "ytId": ""
+    },
+    {
+        "title": "Cinque",
+        "artist": "Joejoe, Giacomo, Boii Slatt",
+        "ytId": ""
+    },
+    {
+        "title": "Latin Mama",
+        "artist": "willzead",
+        "ytId": ""
+    },
+    {
+        "title": "LAVAPIATTI",
+        "artist": "RRARI DAL TACCO",
+        "ytId": ""
+    },
+    {
+        "title": "Misère",
+        "artist": "Baby Gang, Higashi",
+        "ytId": ""
+    },
+    {
+        "title": "BAMBOLA (feat. Niky Savage)",
+        "artist": "Artie 5ive, Niky Savage",
+        "ytId": ""
+    },
+    {
+        "title": "Sigue",
+        "artist": "Beny Jr, Morad, K y B",
+        "ytId": ""
+    },
+    {
+        "title": "MI PIACCIONO LE ARMI",
+        "artist": "Simba La Rue, FT Kings, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "UOMO CATTIVO (feat. Nabi)",
+        "artist": "LILCR, Nabi, Ay Mazza",
+        "ytId": ""
+    },
+    {
+        "title": "Tristano e Isotta",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "WHIGGA (feat. Guè)",
+        "artist": "Rondodasosa, Guè",
+        "ytId": ""
+    },
+    {
+        "title": "Adding",
+        "artist": "Yung Fazo",
+        "ytId": ""
+    },
+    {
+        "title": "Pura Purissima (feat. Nerissima Serpe)",
+        "artist": "Papa V, Night Skinny, Nerissima Serpe",
+        "ytId": ""
+    },
+    {
+        "title": "Knock Knock",
+        "artist": "SoFaygo",
+        "ytId": ""
+    },
+    {
+        "title": "MOLLY ROSA",
+        "artist": "Glocky, Faneto",
+        "ytId": ""
+    },
+    {
+        "title": "DÉSOLÉE",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "Yakuza",
+        "artist": "Elodie, Sfera Ebbasta, Rvssian",
+        "ytId": ""
+    },
+    {
+        "title": "YOSHI (feat. thasup, Fabri Fibra & Capo Plaza) - prod. Strage [Remix]",
+        "artist": "MACHETE, Dani Faiv, J Balvin, thasup, Fabri Fibra, Capo Plaza",
+        "ytId": ""
+    },
+    {
+        "title": "Nessuna",
+        "artist": "Luchè",
+        "ytId": ""
+    },
+    {
+        "title": "Mood (feat. iann dior)",
+        "artist": "24kGoldn, iann dior",
+        "ytId": ""
+    },
+    {
+        "title": "Mystical Magical",
+        "artist": "Benson Boone",
+        "ytId": ""
+    },
+    {
+        "title": "Sprinter",
+        "artist": "Dave, Central Cee",
+        "ytId": ""
+    },
+    {
+        "title": "The Fate of Ophelia",
+        "artist": "Taylor Swift",
+        "ytId": ""
+    },
+    {
+        "title": "Nightcrawler (feat. Swae Lee & Chief Keef)",
+        "artist": "Travis Scott, Swae Lee, Chief Keef",
+        "ytId": ""
+    },
+    {
+        "title": "Blow Up",
+        "artist": "k1dvuller",
+        "ytId": ""
+    },
+    {
+        "title": "IDGAF (feat. Yeat)",
+        "artist": "Drake, Yeat",
+        "ytId": ""
+    },
+    {
+        "title": "Comfort (feat. Tony Boy)",
+        "artist": "Slings, Tony Boy",
+        "ytId": ""
+    },
+    {
+        "title": "Hotel Room",
+        "artist": "FLVCKKA, Sleezy O, Maury",
+        "ytId": ""
+    },
+    {
+        "title": "L'Amore Non Mi Basta",
+        "artist": "Emma",
+        "ytId": ""
+    },
+    {
+        "title": "Gata Only (Remix)",
+        "artist": "FloyyMenor, Ozuna, Anitta",
+        "ytId": ""
+    },
+    {
+        "title": "RAVE, ECLISSI",
+        "artist": "Tananai",
+        "ytId": ""
+    },
+    {
+        "title": "Rodeo (Remix)",
+        "artist": "Lah Pat, Flo Milli",
+        "ytId": ""
+    },
+    {
+        "title": "AURA",
+        "artist": "Ogryzek",
+        "ytId": ""
+    },
+    {
+        "title": "No Kizzy",
+        "artist": "18K, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Pupazzo",
+        "artist": "Melons, Lubi, Ddusi",
+        "ytId": ""
+    },
+    {
+        "title": "Stellina",
+        "artist": "Melons, Ddusi",
+        "ytId": ""
+    },
+    {
+        "title": "Rubare",
+        "artist": "Melons, Ddusi",
+        "ytId": ""
+    },
+    {
+        "title": "Stoopid",
+        "artist": "Melons, Ddusi",
+        "ytId": ""
+    },
+    {
+        "title": "Balloons",
+        "artist": "Melons, Ddusi",
+        "ytId": ""
+    },
+    {
+        "title": "Mp3 (feat. Faneto)",
+        "artist": "Melons, Ddusi, Faneto",
+        "ytId": ""
+    },
+    {
+        "title": "V per Ventidue",
+        "artist": "22simba",
+        "ytId": ""
+    },
+    {
+        "title": "Vibe",
+        "artist": "Guè",
+        "ytId": ""
+    },
+    {
+        "title": "Le Tipe",
+        "artist": "Guè",
+        "ytId": ""
+    },
+    {
+        "title": "Apparecchiato (feat. Nerissima Serpe)",
+        "artist": "Papa V, Nerissima Serpe, Fritu",
+        "ytId": ""
+    },
+    {
+        "title": "Il Protettore (feat. Young Hash, Melons)",
+        "artist": "Don Joe, Young Hash, Melons",
+        "ytId": ""
+    },
+    {
+        "title": "Modalità Demonio",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Boxer",
+        "artist": "Gheba, Pave",
+        "ytId": ""
+    },
+    {
+        "title": "Angioletto & Ivan",
+        "artist": "Young Hash, IvanBi",
+        "ytId": ""
+    },
+    {
+        "title": "BETTY BOOP (feat. Artie 5ive)",
+        "artist": "LILCR, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "a me piace #249 (feat. LILCR)",
+        "artist": "dedde, LILCR",
+        "ytId": ""
+    },
+    {
+        "title": "CAPI'",
+        "artist": "Glasond, Tony 2Milli",
+        "ytId": ""
+    },
+    {
+        "title": "DITO MEDIO",
+        "artist": "LILCR, Melons",
+        "ytId": ""
+    },
+    {
+        "title": "AYAHUASCA (feat. Tony Boy)",
+        "artist": "Simba La Rue, Tony Boy, FT Kings",
+        "ytId": ""
+    },
+    {
+        "title": "CAZZI MIEI",
+        "artist": "Simba La Rue, FT Kings",
+        "ytId": ""
+    },
+    {
+        "title": "L'ultimo a Cadere",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "La violenza Necessaria (feat. Shiva)",
+        "artist": "Kid Yugi, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Eroina (feat. Tutti Fenomeni)",
+        "artist": "Kid Yugi, Tutti Fenomeni",
+        "ytId": ""
+    },
+    {
+        "title": "Jolly",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Mostro (feat. Tony Boy)",
+        "artist": "Kid Yugi, Tony Boy",
+        "ytId": ""
+    },
+    {
+        "title": "Push It (feat. ANNA)",
+        "artist": "Kid Yugi, ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "Amelie",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Gilgamesh",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Chuck Norris (feat. Papa V, RRARI DAL TACCO, Nerissima Serpe)",
+        "artist": "Kid Yugi, Papa V, RRARI DAL TACCO, Nerissima Serpe",
+        "ytId": ""
+    },
+    {
+        "title": "Mu'Ammar Gheddafi (feat. Simba La Rue)",
+        "artist": "Kid Yugi, Simba La Rue, FT Kings",
+        "ytId": ""
+    },
+    {
+        "title": "Bullet Ballet (feat. Artie 5ive)",
+        "artist": "Kid Yugi, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "Per il Sangue Versato",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Per te che Lotto",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Davide e Golia",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "La genesi del tuo colore",
+        "artist": "Irama",
+        "ytId": ""
+    },
+    {
+        "title": "Il Doc 6 (feat. Young Hash, Flaco G & Niky Savage)",
+        "artist": "VillaBanks, Young Hash, Flaco G, Niky Savage",
+        "ytId": ""
+    },
+    {
+        "title": "MILANO TESTAROSSA (feat. Guè)",
+        "artist": "Artie 5ive, Guè",
+        "ytId": ""
+    },
+    {
+        "title": "CAFFÈ AMARO",
+        "artist": "RRARI DAL TACCO",
+        "ytId": ""
+    },
+    {
+        "title": "G STAR",
+        "artist": "LILCR",
+        "ytId": ""
+    },
+    {
+        "title": "BILLIONAIRE BOYS (feat. Artie 5ive, Faneto)",
+        "artist": "Niky Savage, Blssd, Artie 5ive, Faneto",
+        "ytId": ""
+    },
+    {
+        "title": "PANINARO (feat. Tony Boy, Artie 5ive)",
+        "artist": "Astro, Tony Boy, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "QUALCUNO HA FATTO LA SPIA (feat. Artie 5ive)",
+        "artist": "Niko Pandetta, Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "Drip a noleggio",
+        "artist": "Joejoe",
+        "ytId": ""
+    },
+    {
+        "title": "Tocco Pitocco",
+        "artist": "RRARI DAL TACCO",
+        "ytId": ""
+    },
+    {
+        "title": "Calimero",
+        "artist": "Young Hash, RRARI DAL TACCO",
+        "ytId": ""
+    },
+    {
+        "title": "BISEX (feat. Yung Snapp)",
+        "artist": "Low-Red, Yung Snapp",
+        "ytId": ""
+    },
+    {
+        "title": "M A Y B A C H",
+        "artist": "Astro",
+        "ytId": ""
+    },
+    {
+        "title": "Miami Vice (feat. Sfera Ebbasta, Simba La Rue)",
+        "artist": "Luchè, Sfera Ebbasta, Simba La Rue",
+        "ytId": ""
+    },
+    {
+        "title": "Sciamanin",
+        "artist": "Young Hash, DBZ",
+        "ytId": ""
+    },
+    {
+        "title": "TOP PLAYER",
+        "artist": "The Luxe",
+        "ytId": ""
+    },
+    {
+        "title": "MARTEDÌ GRASSO (feat. Diss Gacha)",
+        "artist": "LILCR, Diss Gacha",
+        "ytId": ""
+    },
+    {
+        "title": "Rivalsa (feat. 22simba)",
+        "artist": "Gheba, 22simba, Pave",
+        "ytId": ""
+    },
+    {
+        "title": "DRIP DROP",
+        "artist": "MamboLosco",
+        "ytId": ""
+    },
+    {
+        "title": "Star (feat. Shiva)",
+        "artist": "Paky, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "PACHAMAMA (feat. Rhove)",
+        "artist": "Sayf, Rhove",
+        "ytId": ""
+    },
+    {
+        "title": "FLASH FLASH",
+        "artist": "Pyrex",
+        "ytId": ""
+    },
+    {
+        "title": "FINEST (feat. Tedua)",
+        "artist": "Pyrex, Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "DARKMONEY (feat. Sfera Ebbasta)",
+        "artist": "Pyrex, Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "COME UN LADRO (feat. Shiva)",
+        "artist": "Pyrex, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "BUSINESS BOY (feat. Tony Effe)",
+        "artist": "Pyrex, Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "POOL TECHNO (feat. Capo Plaza)",
+        "artist": "Pyrex, Capo Plaza",
+        "ytId": ""
+    },
+    {
+        "title": "K.O.D",
+        "artist": "Pyrex",
+        "ytId": ""
+    },
+    {
+        "title": "PROMESSE NON MANTENUTE (feat. Side Baby)",
+        "artist": "Pyrex, Side Baby",
+        "ytId": ""
+    },
+    {
+        "title": "PELLE NERA (feat. Wayne)",
+        "artist": "Pyrex, Wayne",
+        "ytId": ""
+    },
+    {
+        "title": "VANIGLIA",
+        "artist": "Pyrex",
+        "ytId": ""
+    },
+    {
+        "title": "CHE C'È?! (feat. Rrari Dal Tacco, Flaco G)",
+        "artist": "Pyrex, RRARI DAL TACCO, Flaco G",
+        "ytId": ""
+    },
+    {
+        "title": "SPECCHIO RIFLESSO",
+        "artist": "Pyrex",
+        "ytId": ""
+    },
+    {
+        "title": "OSSESSIONE",
+        "artist": "Samurai Jay, Vito Salamanca",
+        "ytId": ""
+    },
+    {
+        "title": "CHANELINA SOUBRETTE (feat. Disme & Ele A)",
+        "artist": "Sayf, Disme, Ele A",
+        "ytId": ""
+    },
+    {
+        "title": "TR*P",
+        "artist": "Sayf, Sgribaz",
+        "ytId": ""
+    },
+    {
+        "title": "TU MI PIACI TANTO",
+        "artist": "Sayf, Dibla, Jiz",
+        "ytId": ""
+    },
+    {
+        "title": "JavaScript",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "IQOS",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Hotline Bling",
+        "artist": "Drake",
+        "ytId": ""
+    },
+    {
+        "title": "God's Plan",
+        "artist": "Drake",
+        "ytId": ""
+    },
+    {
+        "title": "SHYNE",
+        "artist": "Travis Scott, GloRilla",
+        "ytId": ""
+    },
+    {
+        "title": "Lane Splitter",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Non Ti Scordar Mai Di Me (Tutorial 4)",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Licenza Di Rubare",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Torna Da Me",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "È Stato Stupido",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Yea Yea",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Stronzate Da Rapper (Non Ho Mai)",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Gli Uomini Ti Scammano (Tutorial 3)",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Io Sono Un Grande Tu Sei Un Incapace",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Homeless (Sergio)",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Fare Soldi",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Milano Non È Così Bad",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Il Metodo Migliore (Tutorial 2)",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "56 Barre Cattive",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Non Essere Cattivo",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "T Guardav",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "HCU Intro",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Storia Di Un Proiettile",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Calcolo",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Terry Davis",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "P.G.D.T.I.T.",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Danni Da Perc",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "La Canzone Peggiore Del Mondo",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "La Canzone Migliore Del Mondo",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Arrivo A Milano",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Babababababa",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "IQOS",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Amo Gli Animali",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Parlo Con Gli Illuminati A C'è Posta Per Te",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "Music Business",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "O Mamma",
+        "artist": "Hammon",
+        "ytId": ""
+    },
+    {
+        "title": "C’est La Vie",
+        "artist": "Fre_nky",
+        "ytId": ""
+    },
+    {
+        "title": "Giovani Re",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "V per Vangelo",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Polvere Rosa",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Obsessed",
+        "artist": "Shiva, ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "Peccati",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Bad Bad Bad",
+        "artist": "Shiva, Geolier",
+        "ytId": ""
+    },
+    {
+        "title": "Take 6",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Dio Esiste",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Babyface",
+        "artist": "Shiva, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Spie",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Bacio di Giuda",
+        "artist": "Shiva, Tiziano Ferro",
+        "ytId": ""
+    },
+    {
+        "title": "Mayday",
+        "artist": "Shiva, Lazza, Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Risorgere",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Coscienza",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Babyface",
+        "artist": "Shiva, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Babyface",
+        "artist": "Shiva, Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "Self Aware",
+        "artist": "Temper City",
+        "ytId": ""
+    },
+    {
+        "title": "Runaway",
+        "artist": "Kanye West, Pusha T",
+        "ytId": ""
+    },
+    {
+        "title": "Fragile",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Ciao Bella",
+        "artist": "Sfera Ebbasta, ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "G63",
+        "artist": "Sfera Ebbasta, Lazza, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "VDLC",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Anche Stasera",
+        "artist": "Sfera Ebbasta, Elodie",
+        "ytId": ""
+    },
+    {
+        "title": "Momenti No",
+        "artist": "Sfera Ebbasta, Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "Milano Bene",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "3uphon",
+        "artist": "Sfera Ebbasta, thasup, Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "Complicato",
+        "artist": "Sfera Ebbasta, Paky",
+        "ytId": ""
+    },
+    {
+        "title": "Gol",
+        "artist": "Sfera Ebbasta, Guè",
+        "ytId": ""
+    },
+    {
+        "title": "Calcolatrici",
+        "artist": "Sfera Ebbasta, Geolier, Simba La Rue, Baby Gang",
+        "ytId": ""
+    },
+    {
+        "title": "15 Piani",
+        "artist": "Sfera Ebbasta, Marracash",
+        "ytId": ""
+    },
+    {
+        "title": "SNTMNG",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "NON METTERCI BECCO",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "MOLECOLE SPRITE",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "MAYBACH",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "MNGSNT",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "D&G",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "OVER (demo)",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "PARANOIA",
+        "artist": "Sfera Ebbasta, Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "Rockstar",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Serpenti A Sonagli",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Cupido (feat. Quavo)",
+        "artist": "Sfera Ebbasta, Quavo",
+        "ytId": ""
+    },
+    {
+        "title": "XNX",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Ricchi x Sempre",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Uber",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Leggenda",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Bancomat",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Sciroppo (feat. DrefGold)",
+        "artist": "Sfera Ebbasta, DrefGold",
+        "ytId": ""
+    },
+    {
+        "title": "20 Collane",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "Tran Tran",
+        "artist": "Sfera Ebbasta",
+        "ytId": ""
+    },
+    {
+        "title": "MOTIVATION 4 THE STREETZ (SKIT)",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "RED&BLUE",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "GURU DEL BUSINESS",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "HOODRICH",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "NULLA ACCADE (feat. Capo Plaza)",
+        "artist": "Artie 5ive, Rondodasosa, Capo Plaza",
+        "ytId": ""
+    },
+    {
+        "title": "BETTER 4 ME",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "HALL OF FAME (feat. Rose Villain)",
+        "artist": "Artie 5ive, Rondodasosa, Rose Villain",
+        "ytId": ""
+    },
+    {
+        "title": "VENGO DA DOVE",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "CRISI D’ASTINENZA (feat. Achille Lauro, Dessy)",
+        "artist": "Artie 5ive, Rondodasosa, Achille Lauro, Dessy",
+        "ytId": ""
+    },
+    {
+        "title": "GAMBLER (feat. Rasty Kilo)",
+        "artist": "Artie 5ive, Rondodasosa, Rasty Kilo",
+        "ytId": ""
+    },
+    {
+        "title": "MATRIX (SKIT)",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "VIVI O MUORI",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "YEH OH!",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "MONEY SEX BEEF (feat. Tony Effe)",
+        "artist": "Artie 5ive, Rondodasosa, Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "PISTOLA NEI JEANS (CRIPWALK) [feat. Bello Figo]",
+        "artist": "Artie 5ive, Rondodasosa, Bello Figo",
+        "ytId": ""
+    },
+    {
+        "title": "BOULEVARD",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "SE MORISSI OGGI",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "RED&BLUE",
+        "artist": "Artie 5ive, Rondodasosa",
+        "ytId": ""
+    },
+    {
+        "title": "MODALITÀ DARK",
+        "artist": "Tony Effe, Side Baby, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "VATICANO",
+        "artist": "Tony Effe, Side Baby, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "BANCONOTE EURO",
+        "artist": "Tony Effe, Side Baby, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "CC2 (feat. Pyrex)",
+        "artist": "Tony Effe, Side Baby, Sick Luke, Pyrex",
+        "ytId": ""
+    },
+    {
+        "title": "PUNK",
+        "artist": "Tony Effe, Nko",
+        "ytId": ""
+    },
+    {
+        "title": "7 GIORNI SU 7",
+        "artist": "Side Baby",
+        "ytId": ""
+    },
+    {
+        "title": "MI PIACE",
+        "artist": "Tony Effe, Side Baby, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "POLO RALPH",
+        "artist": "Tony Effe, Side Baby, Nko",
+        "ytId": ""
+    },
+    {
+        "title": "AS ROMA",
+        "artist": "Tony Effe, Side Baby",
+        "ytId": ""
+    },
+    {
+        "title": "ERD",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "CARTA FORBICE SASSO",
+        "artist": "Side Baby, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "FOREVER (feat. Wayne)",
+        "artist": "Tony Effe, Side Baby, Sick Luke, Wayne",
+        "ytId": ""
+    },
+    {
+        "title": "MUSICA DI CONTRABBANDO (feat. Zep Dembo)",
+        "artist": "Tony Effe, Side Baby, Sick Luke, Zep Dembo",
+        "ytId": ""
+    },
+    {
+        "title": "CASHMERE",
+        "artist": "Tony Effe, Side Baby, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "DAMME 'NA MANO",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "PEZZI DA 100 (feat. Kid Yugi)",
+        "artist": "Tony Effe, Kid Yugi, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "CHIARA",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "SESSO E SAMBA (feat. Gaia)",
+        "artist": "Tony Effe, Gaia",
+        "ytId": ""
+    },
+    {
+        "title": "VERO TONY VERO SOSA",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "PILLOLE (feat. Sfera Ebbasta & Geolier)",
+        "artist": "Tony Effe, Sfera Ebbasta, Geolier",
+        "ytId": ""
+    },
+    {
+        "title": "CARRARA (feat. Simba La Rue)",
+        "artist": "Tony Effe, Simba La Rue",
+        "ytId": ""
+    },
+    {
+        "title": "PARTICOLARI SPORCHI",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "HONEY (feat. Lazza & Capo Plaza)",
+        "artist": "Tony Effe, Lazza, Capo Plaza",
+        "ytId": ""
+    },
+    {
+        "title": "MIU MIU",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "GTA (feat. Ghali)",
+        "artist": "Tony Effe, Ghali",
+        "ytId": ""
+    },
+    {
+        "title": "DOPO LE 4 (feat. Bresh & Tedua)",
+        "artist": "Tony Effe, Bresh, Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "ICON",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "MAISON",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "LAP DANCE (feat. Side Baby & Pyrex)",
+        "artist": "Tony Effe, Pyrex, Side Baby",
+        "ytId": ""
+    },
+    {
+        "title": "DEMON TIME (feat. Guè)",
+        "artist": "Tony Effe, Guè",
+        "ytId": ""
+    },
+    {
+        "title": "BALENCIAGA (feat. Rose Villain)",
+        "artist": "Tony Effe, Rose Villain",
+        "ytId": ""
+    },
+    {
+        "title": "P",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "SORRY",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "BOSS",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "TAXI SULLA LUNA (feat. Emma & Takagi & Ketra)",
+        "artist": "Tony Effe, Emma, Takagi & Ketra",
+        "ytId": ""
+    },
+    {
+        "title": "Labirinto",
+        "artist": "Luchè",
+        "ytId": ""
+    },
+    {
+        "title": "Addosso",
+        "artist": "Kuremino",
+        "ytId": ""
+    },
+    {
+        "title": "BUBBLE (feat. thasup & Salmo)",
+        "artist": "Takagi & Ketra, thasup, Salmo",
+        "ytId": ""
+    },
+    {
+        "title": "NEW YORK",
+        "artist": "Rondodasosa, Nko",
+        "ytId": ""
+    },
+    {
+        "title": "Gelosa (feat. Shiva, Sfera Ebbasta, Guè)",
+        "artist": "Finesse, Shiva, Sfera Ebbasta, Guè, Drillionaire",
+        "ytId": ""
+    },
+    {
+        "title": "Pensando a lei",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "ALBV",
+        "artist": "Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "!ly (feat. Coez)",
+        "artist": "thasup, Coez",
+        "ytId": ""
+    },
+    {
+        "title": "r()t()nda (feat. Tiziano Ferro)",
+        "artist": "thasup, Tiziano Ferro",
+        "ytId": ""
+    },
+    {
+        "title": "Ancora",
+        "artist": "Rhove",
+        "ytId": ""
+    },
+    {
+        "title": "BOSS",
+        "artist": "Tony Effe",
+        "ytId": ""
+    },
+    {
+        "title": "Niente da perdere",
+        "artist": "Shiva",
+        "ytId": ""
+    },
+    {
+        "title": "ALDILÀ",
+        "artist": "Melons, Ddusi",
+        "ytId": ""
+    },
+    {
+        "title": "MARTELLARE",
+        "artist": "Melons, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "PAZZO OMICIDA",
+        "artist": "Melons, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "NIENTE PACE (feat. Niko Pandetta & IvanBi)",
+        "artist": "Melons, Sick Luke, Niko Pandetta, IvanBi",
+        "ytId": ""
+    },
+    {
+        "title": "CASE DELL'ORRORE",
+        "artist": "Melons, Sick Luke",
+        "ytId": ""
+    },
+    {
+        "title": "NUVOLE ROSSE (feat. LILCR)",
+        "artist": "Melons, Sick Luke, LILCR",
+        "ytId": ""
+    },
+    {
+        "title": "FULL",
+        "artist": "Vena, Narcio, Yun-g",
+        "ytId": ""
+    },
+    {
+        "title": "Giovani G",
+        "artist": "Vena",
+        "ytId": ""
+    },
+    {
+        "title": "+ FORTE",
+        "artist": "18K, Latrelle, Ed Mars",
+        "ytId": ""
+    },
+    {
+        "title": "Viagra (feat. Kid Yugi)",
+        "artist": "Jake La Furia, Kid Yugi, Night Skinny",
+        "ytId": ""
+    },
+    {
+        "title": "Old Fashion (feat. Promessa e Flaco G)",
+        "artist": "22simba, Promessa, Flaco G",
+        "ytId": ""
+    },
+    {
+        "title": "DAGESTAN",
+        "artist": "Glasond",
+        "ytId": ""
+    },
+    {
+        "title": "Drip (feat. Simba La Rue, FT Kings)",
+        "artist": "Néza, Simba La Rue, FT Kings",
+        "ytId": ""
+    },
+    {
+        "title": "Rap Leggenda",
+        "artist": "Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "SWAG MUSIC",
+        "artist": "Artie 5ive",
+        "ytId": ""
+    },
+    {
+        "title": "DAL TACCO",
+        "artist": "RRARI DAL TACCO",
+        "ytId": ""
+    },
+    {
+        "title": "AYAYAY",
+        "artist": "Sfera Ebbasta, DYSTINCT",
+        "ytId": ""
+    },
+    {
+        "title": "AYAYAY",
+        "artist": "Sfera Ebbasta, DYSTINCT",
+        "ytId": ""
+    },
+    {
+        "title": "4 Gambe",
+        "artist": "Nerissima Serpe, Night Skinny",
+        "ytId": ""
+    },
+    {
+        "title": "ASTP",
+        "artist": "Lory G, Sum M",
+        "ytId": ""
+    },
+    {
+        "title": "Tacco di Prada",
+        "artist": "Lory G, Pocho, Sum M",
+        "ytId": ""
+    },
+    {
+        "title": "FaXXX (feat. Latrelle)",
+        "artist": "Tedua, Latrelle",
+        "ytId": ""
+    },
+    {
+        "title": "Uno+Gangsta (feat. Nerissima Serpe)",
+        "artist": "Tedua, Nerissima Serpe",
+        "ytId": ""
+    },
+    {
+        "title": "Mai",
+        "artist": "Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "Felpa Nera (feat. ANNA)",
+        "artist": "Tedua, ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "Too Late",
+        "artist": "Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "Hoola Hop (feat. Ernia)",
+        "artist": "Tedua, Ernia",
+        "ytId": ""
+    },
+    {
+        "title": "Volare",
+        "artist": "Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "Ryan Ted Freestyle",
+        "artist": "Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "Giovane e Bello (feat. Sayf)",
+        "artist": "Tedua, Sayf",
+        "ytId": ""
+    },
+    {
+        "title": "Gli Anni",
+        "artist": "Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "Gravità (feat. Latrelle)",
+        "artist": "Tedua, Latrelle",
+        "ytId": ""
+    },
+    {
+        "title": "Blue",
+        "artist": "Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "Veliero di Carta",
+        "artist": "Tedua",
+        "ytId": ""
+    },
+    {
+        "title": "Chuniri",
+        "artist": "Tedua, SHUNE",
+        "ytId": ""
+    },
+    {
+        "title": "Lettera a Tedua",
+        "artist": "Tedua, SHUNE",
+        "ytId": ""
+    },
+    {
+        "title": "Big City Life RMX",
+        "artist": "Unknown Artist",
+        "ytId": ""
+    },
+    {
+        "title": "64 BARRE DI TERRORE (Red Bull 64 Bars)",
+        "artist": "Kid Yugi",
+        "ytId": ""
+    },
+    {
+        "title": "WHITE GIRL WASTED",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "suno-a4798cae-167a-466b-9b68-395ed686b6bc (1)",
+        "artist": "Unknown Artist",
+        "ytId": ""
+    },
+    {
+        "title": "MILLION DOLLAR BABE",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "DON'T TELL NOBODY",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "WHITE GIRL WASTED",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "SONO IO IL PASS (feat. Lazza)",
+        "artist": "ANNA, Lazza",
+        "ytId": ""
+    },
+    {
+        "title": "CATALANO",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "CUORE IN OFF",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "SCONTROSA (feat. G.Mineiro)",
+        "artist": "ANNA, G.Mineiro",
+        "ytId": ""
+    },
+    {
+        "title": "SAFARI (feat. Astro & Tony Boy)",
+        "artist": "ANNA, Astro, Tony Boy",
+        "ytId": ""
+    },
+    {
+        "title": "CRYSTAL COLLO",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "HOT POT (interlude)",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "U LIKE ME",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "BENIHANA",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "HONEY",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "VELENO",
+        "artist": "ANNA",
+        "ytId": ""
+    },
+    {
+        "title": "Splinter Cell",
+        "artist": "G.Mineiro, Flatpearl, Jiz, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "E Allora",
+        "artist": "G.Mineiro, Flatpearl, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "Devo Andare Con Le Mie Winx (feat. Rhove)",
+        "artist": "G.Mineiro, Rhove, Flatpearl, Succo, Balanta",
+        "ytId": ""
+    },
+    {
+        "title": "Scendo E Cerco Un’Altra",
+        "artist": "G.Mineiro, Flatpearl, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "Loco In Discoteca (feat. Yuri Redicopa)",
+        "artist": "G.Mineiro, Flatpearl, Succo, Yuri Redicopa, Soy Ares",
+        "ytId": ""
+    },
+    {
+        "title": "Malpensa",
+        "artist": "G.Mineiro, Flatpearl, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "Impunità (feat. Scaccia)",
+        "artist": "G.Mineiro, Scaccia, Flatpearl, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "Pique Mecanico",
+        "artist": "G.Mineiro, Loreto Paradiso, Flatpearl, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "Favelà (feat. Soubra, Kaio)",
+        "artist": "G.Mineiro, Soubra, Kaio, Jiz, Flatpearl, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "Salta Salta",
+        "artist": "G.Mineiro, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "PATROCINIO",
+        "artist": "G.Mineiro, Flatpearl, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "Bimbo Crudele",
+        "artist": "G.Mineiro, Flatpearl, Succo",
+        "ytId": ""
+    },
+    {
+        "title": "white",
+        "artist": "Adri, MiQu",
+        "ytId": ""
+    }
+];
+
+        const timeLimits = [1, 2, 4, 7, 11, 16];
+        const maxGameSeconds = 16;
+
+        let currentAttempt = 0;
+        let activeSong = null;
+        let player = null;
+        let isPlaying = false;
+        let progressInterval = null;
+        let apiKey = localStorage.getItem('yt_api_key') || '';
+
+        document.getElementById('api-key-input').value = apiKey;
+
+        function onYouTubeIframeAPIReady() {
+            initGame();
+        }
+
+        async function initGame() {
+            document.getElementById('end-modal').style.display = 'none';
+            document.getElementById('guess-input').value = '';
+            document.getElementById('loader').style.display = 'flex';
+            document.getElementById('loader-status').innerText = 'Scelta della canzone segreta...';
+            
+            isPlaying = false;
+            currentAttempt = 0;
+            updateTimeInfo();
+
+            for (let i = 0; i < 6; i++) {
+                const box = document.getElementById(`attempt-${i}`);
+                box.className = "attempt-box empty";
+                box.innerText = "";
+            }
+
+            activeSong = playlist[Math.floor(Math.random() * playlist.length)];
+            
+            document.getElementById('loader-status').innerText = 'Ricerca del video su YouTube...';
+            const ytId = await findYouTubeVideo(activeSong.title, activeSong.artist);
+
+            if (!ytId) {
+                document.getElementById('loader-status').innerText = 'Errore nel caricamento del video. Riprovo...';
+                initGame();
+                return;
+            }
+
+            activeSong.ytId = ytId;
+
+            if (player) {
+                player.loadVideoById(activeSong.ytId, 0);
+                player.pauseVideo();
+                document.getElementById('loader').style.display = 'none';
+            } else {
+                player = new YT.Player('yt-player', {
+                    videoId: activeSong.ytId,
+                    playerVars: {
+                        'playsinline': 1,
+                        'controls': 0,
+                        'disablekb': 1,
+                        'fs': 0,
+                        'modestbranding': 1,
+                        'rel': 0
+                    },
+                    events: {
+                        'onReady': () => {
+                            player.mute();
+                            player.playVideo();
+                            setTimeout(() => {
+                                player.pauseVideo();
+                                player.unMute();
+                                player.seekTo(0);
+                                document.getElementById('loader').style.display = 'none';
+                            }, 1500);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Funzione per cercare su YouTube tramite API o scraping pubblico alternativo
+        async function findYouTubeVideo(title, artist) {
+            const query = `${title} ${artist} official audio`;
+            
+            if (apiKey) {
+                try {
+                    const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=1&key=${apiKey}`);
+                    const data = await response.json();
+                    if (data.items && data.items.length > 0) {
+                        return data.items[0].id.videoId;
+                    }
+                } catch (e) {
+                    console.error("Errore con l'API Key di YouTube:", e);
+                }
+            }
+            
+            // Metodo di backup gratuito senza API Key (utilizzando un motore di ricerca pubblico come proxy alternativo)
+            try {
+                const response = await fetch(`https://open.tube/api/v1/search/videos?search=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                if (data.data && data.data.length > 0) {
+                    // Estrae l'ID video
+                    const url = data.data[0].url;
+                    const match = url.match(/watch\?v=([^&]+)/) || url.match(/embed\/([^&]+)/);
+                    if (match) return match[1];
+                }
+            } catch (e) {
+                console.error("Errore con la ricerca di backup:", e);
+            }
+
+            // Ultimo tentativo: un'API pubblica di invidio.us
+            try {
+                const response = await fetch(`https://invidious.snopyta.org/api/v1/search?q=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    return data[0].videoId;
+                }
+            } catch (e) {}
+
+            // Se fallisce tutto, usiamo una delle canzoni con ID pre-salvato
+            return "dQw4w9WgXcQ"; // Rickroll di backup per non bloccare l'interfaccia
+        }
+
+        function togglePlay() {
+            if (!player || typeof player.getPlayerState !== 'function') return;
+            if (isPlaying) { pauseAudio(); } else { playAudio(); }
+        }
+
+        function playAudio() {
+            player.seekTo(0);
+            player.playVideo();
+            isPlaying = true;
+            document.getElementById('play-btn').innerText = "⏸";
+
+            const limit = timeLimits[currentAttempt];
+            
+            progressInterval = setInterval(() => {
+                const currentTime = player.getCurrentTime();
+                const progressPercent = (currentTime / maxGameSeconds) * 100;
+                
+                document.getElementById('progress').style.width = `${progressPercent}%`;
+                document.getElementById('current-time').innerText = formatTime(currentTime);
+
+                if (currentTime >= limit) {
+                    pauseAudio();
+                    player.seekTo(0);
+                }
+            }, 50);
+        }
+
+        function pauseAudio() {
+            clearInterval(progressInterval);
+            if (player) player.pauseVideo();
+            isPlaying = false;
+            document.getElementById('play-btn').innerText = "▶";
+            document.getElementById('progress').style.width = "0%";
+            document.getElementById('current-time').innerText = "0:00";
+        }
+
+        function formatTime(seconds) {
+            const s = Math.floor(seconds);
+            return `0:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function updateTimeInfo() {
+            document.getElementById('max-time').innerText = timeLimits[currentAttempt];
+        }
+
+        // Gestione suggerimenti autocomplete
+        function showSuggestions(val) {
+            const suggestionsContainer = document.getElementById('suggestions');
+            suggestionsContainer.innerHTML = '';
+            
+            if (!val || val.length < 2) {
+                suggestionsContainer.style.display = 'none';
+                return;
+            }
+
+            const cleanVal = val.toLowerCase();
+            const filtered = playlist.filter(s => 
+                s.title.toLowerCase().includes(cleanVal) || 
+                s.artist.toLowerCase().includes(cleanVal)
+            ).slice(0, 5);
+
+            if (filtered.length === 0) {
+                suggestionsContainer.style.display = 'none';
+                return;
+            }
+
+            filtered.forEach(song => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.innerText = `${song.artist} - ${song.title}`;
+                div.onclick = () => {
+                    document.getElementById('guess-input').value = `${song.artist} - ${song.title}`;
+                    suggestionsContainer.style.display = 'none';
+                };
+                suggestionsContainer.appendChild(div);
+            });
+
+            suggestionsContainer.style.display = 'block';
+        }
+
+        function submitGuess() {
+            const input = document.getElementById('guess-input');
+            const guess = input.value.trim();
+            if (!guess) return;
+
+            const box = document.getElementById(`attempt-${currentAttempt}`);
+            const correctStr = `${activeSong.artist} - ${activeSong.title}`;
+
+            if (guess.toLowerCase() === correctStr.toLowerCase()) {
+                box.className = "attempt-box correct";
+                box.innerText = `🎉 ${correctStr}`;
+                endGame(true);
+            } else {
+                box.className = "attempt-box incorrect";
+                box.innerText = `❌ ${guess}`;
+                nextAttempt();
+            }
+            input.value = '';
+            document.getElementById('suggestions').style.display = 'none';
+        }
+
+        function skipTurn() {
+            const box = document.getElementById(`attempt-${currentAttempt}`);
+            box.className = "attempt-box incorrect";
+            box.innerText = "🏳️ Saltato";
+            nextAttempt();
+            document.getElementById('guess-input').value = '';
+            document.getElementById('suggestions').style.display = 'none';
+        }
+
+        function nextAttempt() {
+            pauseAudio();
+            if (currentAttempt < 5) {
+                currentAttempt++;
+                updateTimeInfo();
+            } else {
+                endGame(false);
+            }
+        }
+
+        function endGame(won) {
+            pauseAudio();
+            const modal = document.getElementById('end-modal');
+            const title = document.getElementById('modal-title');
+            const text = document.getElementById('modal-text');
+            const info = document.getElementById('modal-song-info');
+
+            title.innerText = won ? "Hai vinto! 🎉" : "Game Over 😢";
+            text.innerText = won ? "Ottimo orecchio! Canzone indovinata:" : "La canzone era:";
+            info.innerText = `${activeSong.artist} - ${activeSong.title}`;
+
+            modal.style.display = "flex";
+        }
+
+        // Impostazioni
+        function toggleSettings() {
+            const modal = document.getElementById('settings-modal');
+            modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function saveSettings() {
+            const val = document.getElementById('api-key-input').value.trim();
+            localStorage.setItem('yt_api_key', val);
+            apiKey = val;
+            toggleSettings();
+            initGame();
+        }
+    </script>
+</body>
+</html>
