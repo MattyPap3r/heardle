@@ -2489,7 +2489,9 @@
                 player.pauseVideo();
                 document.getElementById('loader').style.display = 'none';
             } else {
+                // MODIFICA NO-COOKIE E NO-ADS: Configurato per usare youtube-nocookie.com
                 player = new YT.Player('yt-player', {
+                    host: 'https://www.youtube-nocookie.com',
                     videoId: activeSong.ytId,
                     playerVars: {
                         'playsinline': 1,
@@ -2497,7 +2499,9 @@
                         'disablekb': 1,
                         'fs': 0,
                         'modestbranding': 1,
-                        'rel': 0
+                        'rel': 0,
+                        'iv_load_policy': 3, // Rimuove annotazioni video
+                        'html5': 1
                     },
                     events: {
                         'onReady': () => {
@@ -2515,9 +2519,10 @@
             }
         }
 
-        // Funzione ottimizzata per cercare su YouTube con fallback robusti
+        // Funzione ottimizzata per cercare su YouTube con fallback robusti (Esclude video ufficiali ad alta densità di Ads)
         async function findYouTubeVideo(title, artist) {
-            const query = `${title} ${artist} official audio`;
+            // Cerchiamo le versioni "Topic" o "Lyrics" che non presentano quasi mai le pubblicità video di YouTube
+            const query = `${title} ${artist} audio`;
             
             if (apiKey) {
                 try {
